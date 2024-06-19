@@ -1,7 +1,11 @@
 import { Component } from "uix/components/Component.ts";
 
-@template<SeasonsEntry>((seas) =>
-    <li>
-        <input type=checkbox
-    </li>
+type Props = {
+    checked: boolean;
+}
+
+@template<Props>((props) =>
+    <input type="checkbox" checked="true"></input>
 )
+
+export class SeasonsEntry extends Component<Props> {};

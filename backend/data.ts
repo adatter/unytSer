@@ -8,7 +8,7 @@ export const items = $$([
 		country: "United States",
 		language: "English",
 		total_seasons: 3,
-		seasones: [true, true, false],
+		seasons: [true, true, false],
 		mark: "f",
 		finished: false
 	},
@@ -21,7 +21,7 @@ export const items = $$([
 		country: "United States",
 		language: "English",
 		total_seasons: 15,
-		seasones: [true, true, false, true, true, true, true, true, false, false, false, false, false, false, false],
+		seasons: [true, true, false, true, true, true, true, true, false, false, false, false, false, false, false],
 		mark: "f",
 		finished: false
 	}

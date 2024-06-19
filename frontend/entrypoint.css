@@ -16,3 +16,44 @@
 	pointer-events: initial;
 }
 
+#edit-item-modal {
+	position: absolute;
+	text-align: center;
+	left: 50%;
+	top: 50%;
+
+	opacity: 0;
+	pointer-events: none;
+
+	transform: translate(-50%, -50%);
+	transition: opacity .3s;
+}
+
+#edit-item-modal.visible {
+	opacity: 1;
+	pointer-events: initial;
+}
+
+#select-mark {
+	opacity: 0;
+	pointer-events: none;
+
+	transform: opacity .3s;
+}
+
+#select-mark.visible {
+	opacity: 1;
+	pointer-events: initial;
+}
+
+#info-modal {
+	opacity: 0;
+	pointer-events: none;
+
+	transform: opacity .3s;
+}
+
+#info-modal.visible {
+	opacity: 1;
+	position: ininial;
+}

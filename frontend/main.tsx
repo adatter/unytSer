@@ -1,7 +1,7 @@
 import { ListEntry } from "./ListEntry.tsx";
 import { items } from "../backend/data.ts";
 
-
+const wikiURL = "https://en.wikipedia.org/w/api.php?action=opensearch&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&search="
 
 function generateUniqueId() {
 	return Date.now().toString(36);
@@ -104,26 +104,69 @@ function addItem() {
 }
 
 
-function showInfo(item) {
-	switch (item[0]) {
-		case "genre":
-			return item[1]
-		case "year":
-			return item[1][0] + " to " + item[1][1]
-		case "runtime":
-			return item[1][0] + " - " + item[1][1] + " min"
-		case "country":
-			return item[1];
-		case "language":
-			return item[1];
-		case "total_seasons":
-			return item[1];
-		case "finished":
-			return (item[1] ? "yes" : "no");
-	};
-	return item[1]
+async function fetchHtml(url) {
+    fetch(`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=revisions&rvprop=content&format=json&titles=${name}&rvsection=0`)
+    .then(resp => resp.json())
+    .then(data => {
+
+        let pageId = Object.keys(data.query.pages)[0]
+
+        if (data.query.pages[pageId].revisions) {
+            console.log(data)
+        } else { console.log("page not found") }   
+    })
 }
 
+async function getWikiLink(t) {
+	let title = "hannibal";
+	console.log("get wiki link triggered for " + title);
+
+	if (title) {
+		try {
+			let response = await fetch(`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=revisions&rvprop=content&format=json&titles=${title}&rvsection=0`);
+			let data = await response.json();
+
+			console.log("got data")
+			console.log(data.query.pages)
+
+			
+		} catch (error) {
+			console.error("Error fetching wiki link: ", error);
+			return 0;
+		}
+	}
+}
+
+async function searchNewSeasons(t) {
+    // let link = await getWikiLink(t);
+    // console.log("got link: " + link);
+
+    // if (link) {
+    //     let html = await fetchHtml(link);
+    //     console.log("Fetched HTML:", html);
+    // }
+
+	let title="hannibal"
+
+	if (title) {
+		try {
+			let response = await fetch(`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=revisions&rvprop=content&format=json&titles=${title}&rvsection=0`);
+			let data = await response.json();
+
+			let wikiPageText = data.query.pages[Object.keys(data.query.pages)[0]].revisions[0]
+
+			console.log("got data")
+			console.log(wikiPageText)
+
+			return wikiPageText
+
+		} catch (error) {
+			console.error("Error fetching wiki link: ", error);
+			return 0;
+		}
+	}
+
+}
 
 
 const searchTitle = $$("");
@@ -169,6 +212,14 @@ export default
 			<button onclick={ search }>Search</button>
 
 			<button onclick={ () => modalAddVisible.val = true }>Add Entry Manually</button>
+		</fieldset>
+
+		<fieldset>
+			<legend>Search for new seasons</legend>
+
+			{ editTitle }
+
+			<button onclick={ searchNewSeasons }>Include All</button>
 		</fieldset>
 		
 		{ items.$.map(item => <ListEntry { ...item.$ }></ListEntry>) }

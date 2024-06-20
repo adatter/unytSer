@@ -11,24 +11,17 @@ const visibleModals: string[] = $$(["1"]);
 
 
 function showInfo(item) {
-	switch (item[0]) {
-		case "genre":
-			return item[1]
-		case "year":
-			return item[1][0] + " to " + item[1][1]
-		case "runtime":
-			return item[1][0] + " - " + item[1][1] + " min"
-		case "country":
-			return item[1];
-		case "language":
-			return item[1];
-		case "total_seasons":
-			return item[1];
-		case "finished":
-			return (item[1] ? "yes" : "no");
-	};
-	return item[1]
+    switch (item[0]) {
+        case "year":
+            return item[1][0] + " to " + item[1][1];
+        case "runtime":
+            return item[1][0] + " - " + item[1][1] + " min";
+        case "finished":
+            return item[1] ? "yes" : "no";
+    }
+    return item[1];
 }
+
 
 
 function showInfoModal(event) {

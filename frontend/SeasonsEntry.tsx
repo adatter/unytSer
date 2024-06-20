@@ -1,11 +1,8 @@
 import { Component } from "uix/components/Component.ts";
 
-type Props = {
-    checked: boolean;
-}
-
-@template<Props>((props) =>
-    <input type="checkbox" checked="true"></input>
+@template<boolean>((check: boolean) =>
+    <input type="checkbox" checked={ check }></input>
 )
 
-export class SeasonsEntry extends Component<Props> {};
+
+export class SeasonsEntry extends Component<boolean> {};

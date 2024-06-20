@@ -1,0 +1,56 @@
+#select-mark {
+	opacity: 0;
+	pointer-events: none;
+
+	transform: opacity .3s;
+}
+
+#select-mark.visible {
+	opacity: 1;
+	pointer-events: initial;
+}
+
+.info-modal {
+	opacity: 0;
+	pointer-events: none;
+
+	transform: opacity .3s;
+
+    border: 1 solid black;
+}
+
+.info-modal.visible {
+	opacity: 1;
+	position: ininial;
+
+    border: 1 solid black;
+}
+
+.button-as-link {
+    background: none;
+    border: none;
+    color: initial;
+    text-decoration: none;
+}
+
+.button-as-link:hover {
+    color: gray;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#info-modal {
+	padding: 0 18px;
+	background-color: white;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+}
+
+#info-modal.visible {
+	font-size: 13px;
+	color: black;
+	/* float: right; */
+	margin-left: 5px;
+	max-height: 200px;
+}

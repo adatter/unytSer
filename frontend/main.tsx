@@ -13,14 +13,12 @@ function generateSeasons(num) {
 }
 
 
-function addMovie(data, method="manually") {
+function addMovie(data: Object, method="manually") {
 
 	console.log(data);
 
 	currentTitle.val = data.Title;
 	currentGenre.val = data.Genre;
-	// currentYearFrom.val = 0;
-	// currentYearTo.val = 0;
 	// currentRuntimeFrom.val = 0;
 	// currentRuntimeTo.val = 0;
 	currentCountry.val = data.Country;
@@ -29,10 +27,35 @@ function addMovie(data, method="manually") {
 
 	currentImg.val = data.Poster;
 
+	try {
+		let match = data.Year.match(/(\d{4})/);
+		let matchDouble = data.Year.match(/(\d{4})–(\d{4})/);
+		if (matchDouble) {
+			currentYearFrom.val = parseInt(matchDouble[1], 10);
+			currentYearTo.val = parseInt(matchDouble[2], 10);
+		} else if (match) {
+			currentYearFrom.val = parseInt(match[1], 10);
+			currentYearTo.val = parseInt(match[1], 10);
+		}
+	} catch (error) {
+		currentYearFrom.val = 0;
+		currentYearTo.val = 0;
+	}
+
+	// try {
+	// 	let match = data.Runtime.match(/(\d+) min/);
+	// 	if (match) {
+	// 		currentRuntime.val = parseInt(match[1], 10);
+	// 	} else {
+	// 		currentRuntime.val = 0;
+	// 	}
+	// } catch (error) {
+	// 	currentRuntime.val = 0;
+	// }
+	
 	console.log(currentTitle)
 
 	modalAddVisible.val = true;
-
 
 }
 
@@ -103,68 +126,81 @@ function addItem() {
 	modalAddVisible.val = false;
 }
 
+function updateTotalSeasons() {
 
-async function fetchHtml(url) {
-    fetch(`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=revisions&rvprop=content&format=json&titles=${name}&rvsection=0`)
+	let seasonsOld = 2
+
+    let titleRef = "Hannibal"
+
+    if (titleRef && titleRef.length > 0) {
+        fetch(wikiURL+titleRef)
+            .then(resp => resp.json())
+            .then(data => {
+
+        let link = data[3][0]
+        if (data[1].filter(elt => elt.includes("TV")).length > 0) {
+            link = data[3][data[1].indexOf(data[1].filter(elt => elt.includes("TV"))[0])]
+        } 
+
+        let title = titleRef
+        if (link && link.includes("/")) {
+            title = link.split("/").slice(-1)[0]
+        } else { console.log("link is not defined: ", title, link) }
+        
+        let newSnumber = updateSeasons(title, seasonsOld)
+        })
+    }
+
+
+}
+
+
+function updateSeasons(title, seasonsOld) {
+
+    fetch(`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=revisions&rvprop=content&format=json&titles=${title}&rvsection=0`)
     .then(resp => resp.json())
     .then(data => {
 
         let pageId = Object.keys(data.query.pages)[0]
 
+		let newS = 0
+
         if (data.query.pages[pageId].revisions) {
-            console.log(data)
-        } else { console.log("page not found") }   
+            let page = data.query.pages[pageId].revisions[0]
+            let text = JSON.stringify(page)
+
+            if (text.includes("redirect") || text.includes("REDIRECT")) {
+                let didYouMean = text.split("[[").slice(-1)[0].split("]]")[0]
+                console.log("Did you mean", didYouMean)
+            } else {
+                let totalSeasons
+                if (text.includes("num_seasons")) {
+                    totalSeasons = text.split("num_seasons")[1].split("= ")[1]
+
+                    if (totalSeasons.includes("{{unbulleted list")) {
+                        totalSeasons = totalSeasons.split("| ")
+                                                    .filter(str =>  /^\d+$/.test(str[0]))
+                                                    .map(elt => elt.split(" ")[0])
+                                                    .reduce((a,b) => parseInt(a)+parseInt(b))
+                    } else {
+                        totalSeasons = parseInt(totalSeasons.split("\\n")[0])
+                    }
+
+                } else if (text.includes("num_series")) {
+                    totalSeasons = parseInt(text.split("num_series")[1].split("= ")[1].split("\\n")[0])
+                } else { totalSeasons = seasonsOld }
+                
+                newS = totalSeasons - seasonsOld
+                
+            }
+            
+            
+        } else { console.log("page not found: ", title) }   
+
+		editTitle.val = "new seasons found for " + title + ": " + newS.toString()
+
+		return newS
     })
-}
-
-async function getWikiLink(t) {
-	let title = "hannibal";
-	console.log("get wiki link triggered for " + title);
-
-	if (title) {
-		try {
-			let response = await fetch(`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=revisions&rvprop=content&format=json&titles=${title}&rvsection=0`);
-			let data = await response.json();
-
-			console.log("got data")
-			console.log(data.query.pages)
-
-			
-		} catch (error) {
-			console.error("Error fetching wiki link: ", error);
-			return 0;
-		}
-	}
-}
-
-async function searchNewSeasons(t) {
-    // let link = await getWikiLink(t);
-    // console.log("got link: " + link);
-
-    // if (link) {
-    //     let html = await fetchHtml(link);
-    //     console.log("Fetched HTML:", html);
-    // }
-
-	let title="hannibal"
-
-	if (title) {
-		try {
-			let response = await fetch(`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=revisions&rvprop=content&format=json&titles=${title}&rvsection=0`);
-			let data = await response.json();
-
-			let wikiPageText = data.query.pages[Object.keys(data.query.pages)[0]].revisions[0]
-
-			console.log("got data")
-			console.log(wikiPageText)
-
-			return wikiPageText
-
-		} catch (error) {
-			console.error("Error fetching wiki link: ", error);
-			return 0;
-		}
-	}
 
 }
 
@@ -196,6 +232,7 @@ const editFinished = $$(false);
 
 const modalAddVisible = $$(false);
 const modalEditVisible = $$(false);
+const modalUpdateSeasonsVisible = $$(false);
 
 const infoModalVisible = $$(false);
 
@@ -219,17 +256,18 @@ export default
 
 			{ editTitle }
 
-			<button onclick={ searchNewSeasons }>Include All</button>
+			<button onclick={ updateTotalSeasons }>Include All</button>
 		</fieldset>
 		
 		{ items.$.map(item => <ListEntry { ...item.$ }></ListEntry>) }
 
 		<div id="add-item-modal" class={  { visible: modalAddVisible }  }>
+		<button onclick={ () => modalAddVisible.val = false } style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">&times;</button>
 			<fieldset>
 				<legend>Add entry</legend>
 				
 				<h3><input type="text" placeholder="Title" value={ currentTitle } /></h3>
-				<img scr={ currentImg } alt="https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg"></img>
+				<img src={ currentImg } alt="https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg"></img>
 
 				<ul>
 					<li>Total seasons <input type="number" placeholder="Total Seasones" value={ currentTotal } /></li>
@@ -243,6 +281,30 @@ export default
 			</fieldset>
 
 			<button onclick={ addItem }>Add Entry</button>
+		</div>
+
+		<div id="update-seasons-modal" class={  { visible: modalUpdateSeasonsVisible }  }>
+			<fieldset>
+				<legend>Search for new seasons</legend>
+
+				Checking if there are new seasons for:
+				
+				{ currentTitle }
+				
+
+				
+			</fieldset>
+
+			<fieldset>
+				<legend>Found:</legend>
+
+				<ul>
+
+				</ul>
+
+			</fieldset>
+
+		
 		</div>
 
 		<div id="edit-item-modal" class={ { visible: modalEditVisible } }>

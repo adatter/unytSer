@@ -7,7 +7,7 @@ const seasonsComponent = template<{check:boolean}>(({check}) => <input type="che
 const infoModalVisible = $$(false);
 const selectMarkVisible = $$(false);
 
-const visibleModals: string[] = $$(["1"]);
+const visibleModals: string[] = $$(["5"]);
 
 
 function showInfo(item) {
@@ -74,11 +74,7 @@ type Props = {
 
 		{ props.seasons.$.map(seas => <input type="checkbox" checked={ seas }/>) }
 
-		{ props.id }
 
-		{ visibleModals.includes(String(props.id)) }
-
-		{ visibleModals }
 
 		<div id="info-modal" class={  { visible: visibleModals.includes(String(props.id)) }  }>
 			<button>Edit Entry (inactive)</button>

@@ -1,0 +1,50 @@
+import { Component } from "uix/components/Component.ts";
+import { template } from "uix/html/template.ts";
+
+type Props = {
+	id: number,
+    title: string,
+    genre?: string,
+    year_from?: number
+	year_to?: number,
+    runtime_from?: number,
+	runtime_to?: number,
+    country?: string,
+    language?: string,
+    total_seasons: number,
+    seasons: boolean[],
+    mark: string,
+    finished: boolean,
+	checked?: boolean,
+}
+
+@template<Props>((props: Props) =>
+	<li>
+		<select style="max-width:5%;" id="select-mark" class="visible">{ props.mark }
+		<option value="">{ props.mark }</option>
+			<option value="f">f</option>
+			<option value="n">n</option>
+			<option value="!">!</option>
+			<option value="?">?</option>
+		</select>
+		<input type="checkbox" checked={ props.seasons.every(el => el) }></input>
+		<input type="checkbox" checked={ props.finished }></input>
+
+		<b class="button-as-link" id={ `info-btn-${props.id}` } onclick={ (event) => showInfoModal(event) }>{ props.title }</b>
+
+		{ props.seasons.$.map(seas => <input type="checkbox" checked={ seas }/>) }
+
+
+	</li>
+)
+
+@style(css `
+	li {
+		list-style-type: none;
+	}
+`)
+export class UpdateSeasonsEntry extends Component<Props> {};
+
+// li:has(input:checked) {
+// 	text-decoration: line-through;
+// }

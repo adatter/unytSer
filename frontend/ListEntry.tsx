@@ -1,6 +1,7 @@
 import { Component } from "uix/components/Component.ts";
 import { SeasonsEntry } from "./SeasonsEntry.tsx";
 import { template } from "uix/html/template.ts";
+import { items } from "backend/data.ts";
 
 const seasonsComponent = template<{check:boolean}>(({check}) => <input type="checkbox" checked={ check }></input>)
 
@@ -71,10 +72,9 @@ type Props = {
 		<input type="checkbox" checked={ props.finished }></input>
 
 		<b class="button-as-link" id={ `info-btn-${props.id}` } onclick={ (event) => showInfoModal(event) }>{ props.title }</b>
-
-		{ props.seasons.$.map(seas => <input type="checkbox" checked={ seas }/>) }
-
-
+		{ props.$.seasons.$.map((_, index) =>
+			<input type="checkbox" checked={ props.$.seasons.$[index] } />
+		) }
 
 		<div id="info-modal" class={  { visible: visibleModals.includes(String(props.id)) }  }>
 			<button>Edit Entry (inactive)</button>

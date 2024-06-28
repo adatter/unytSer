@@ -1,6 +1,6 @@
 export const items = eternalVar("items") ?? $$([
 	{
-		id: 0,
+		id: "0",
 		title: "Hannibal",
 		genre: "Crime, Drama, Horror",
 		year_from: 2013,
@@ -15,7 +15,7 @@ export const items = eternalVar("items") ?? $$([
 		finished: false,
 	},
 	{
-		id: 1,
+		id: "1",
 		title: "Supernatural",
 		genre: "Fantasy, Drama, Horror",
 		year_from: 2005,

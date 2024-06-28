@@ -43,7 +43,7 @@ function editEntry(id) {
 }
 
 type Props = {
-	id: number,
+	id: string,
     title: string,
     genre?: string,
     year_from?: number

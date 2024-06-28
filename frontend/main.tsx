@@ -3,19 +3,43 @@ import { items } from "../backend/data.ts";
 
 const wikiURL = "https://en.wikipedia.org/w/api.php?action=opensearch&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&search="
 
-function generateUniqueId() {
+type MovieData = {
+	Title: string,
+	Actors: string,
+	Awards: string,
+	Country: string,
+	Director: string,
+	Genre: string,
+	Language: string,
+	Metascore: string,
+	Plot: string,
+	Poster: string,
+	Rated: string,
+	Ratings: string[],
+	Runtime: string,
+	Writer: string,
+	Year: string,
+	imdbID: string,
+	imdbRating: string,
+	imdbVotes: string,
+	totalSeasons: string
+}
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+function generateUniqueId() : string {
 	return Date.now().toString(36);
-  }
+}
   
 
-function generateSeasons(num) {
+function generateSeasons(num: number) : boolean[] {
 	return Array(num).fill(false)
 }
 
 
-function addMovie(data: Object, method="manually") {
+function addMovie(data: MovieData, method="manually") : void {
 
-	console.log(data);
+	console.log("addMovie function", "got data:", data);
 
 	currentTitle.val = data.Title;
 	currentGenre.val = data.Genre;
@@ -28,8 +52,9 @@ function addMovie(data: Object, method="manually") {
 	currentImg.val = data.Poster;
 
 	try {
-		let match = data.Year.match(/(\d{4})/);
-		let matchDouble = data.Year.match(/(\d{4})–(\d{4})/);
+		const match = data.Year.match(/(\d{4})/);
+		const matchDouble = data.Year.match(/(\d{4})–(\d{4})/);
+
 		if (matchDouble) {
 			currentYearFrom.val = parseInt(matchDouble[1], 10);
 			currentYearTo.val = parseInt(matchDouble[2], 10);
@@ -52,10 +77,14 @@ function addMovie(data: Object, method="manually") {
 	// } catch (error) {
 	// 	currentRuntime.val = 0;
 	// }
+
+	console.log("what now?")
 	
 	console.log(currentTitle)
 
 	modalAddVisible.val = true;
+
+	console.log(modalAddVisible.val)
 
 }
 
@@ -64,7 +93,7 @@ function search() {
 
 	console.log("search btn", searchTitle.val)
 
-    let titleRef = searchTitle.val
+    const titleRef = searchTitle.val
     let url = `http://www.omdbapi.com/?t=${titleRef}&apikey=a5145305`
 
     if (titleRef.length <= 0) {
@@ -126,9 +155,32 @@ function addItem() {
 	modalAddVisible.val = false;
 }
 
-function loopSeasonsUpdate() {
-	items.map(item => updateTotalSeasons(item.title))
+
+async function loopSeasonsUpdate() {
+	modalUpdateSeasonsVisible.val = true;
+    updateSeasonsBarVisible.val = true;
+
+    const updatePromises = items.map((item, index) => 
+        new Promise(resolve => {
+            setTimeout(async () => {
+                await updateTotalSeasons(item.title, item.total_seasons);
+                
+                currentTitle.val = item.title;
+                updateSeasonsPercentage.val = String(100 * (index + 1) / items.length) + "%";
+                
+                resolve();
+            }, index * 100);
+        })
+    );
+    
+    await Promise.all(updatePromises);
+
+    currentTitle.val = "";
+    updateSeasonsPercentage.val = "0%";
+    updateSeasonsBarVisible.val = false;
 }
+
+
 
 async function updateTotalSeasons(titleRef: string, seasonsOld: number = 0) {
     if (titleRef && titleRef.length > 0) {
@@ -152,14 +204,14 @@ async function updateTotalSeasons(titleRef: string, seasonsOld: number = 0) {
                 console.error("Link is not defined: ", title, link);
             }
 
-            updateSeasonsNumber(title);
+            updateSeasonsNumber(title, seasonsOld);
         } catch (error) {
             console.error("Failed to fetch or process data: ", error);
         }
     }
 }
 
-async function updateSeasonsNumber(title: string) : Promise<void> {
+async function updateSeasonsNumber(title: string, seasonsOld: number) : Promise<void> {
 	try {
         const response = await fetch(`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=revisions&rvprop=content&format=json&titles=${title}&rvsection=0`);
         if (!response.ok) {
@@ -180,8 +232,9 @@ async function updateSeasonsNumber(title: string) : Promise<void> {
 
 			const totalSeasons = extractSeasons(text);
 
-			editTitle.val = String(totalSeasons)
-
+			if (totalSeasons - seasonsOld) {
+				newSeasonsArray.push({title: title, number: totalSeasons - seasonsOld});
+			}
 		} else {
 			console.log("page not found: ", title)
 		}	
@@ -218,28 +271,31 @@ function extractSeasons(text: string): number {
 	return totalSeasons
 }
 
+function filterEntries() {
+	modalFilterVisible.val = true;
+}
 
 
 const searchTitle = $$("");
 
-let currentTitle = $$("");
-let currentGenre = $$("");
-let currentYearFrom = $$("");
-let currentYearTo = $$("");
-let currentRuntimeFrom = $$("");
-let currentRuntimeTo = $$("");
-let currentCountry = $$("");
-let currentLanguage = $$("");
-let currentTotal = $$(0);
-let currentFinished = $$(false);
-let currentImg = $$("");
+const currentTitle = $$("");
+const currentGenre = $$("");
+const currentYearFrom = $$(0);
+const currentYearTo = $$(0);
+const currentRuntimeFrom = $$(0);
+const currentRuntimeTo = $$(0);
+const currentCountry = $$("");
+const currentLanguage = $$("");
+const currentTotal = $$(0);
+const currentFinished = $$(false);
+const currentImg = $$("");
 
 const editTitle = $$("");
 const editGenre = $$("");
-const editYearFrom = $$("");
-const editYearTo = $$("");
-const editRuntimeFrom = $$("");
-const editRuntimeTo = $$("");
+const editYearFrom = $$(0);
+const editYearTo = $$(0);
+const editRuntimeFrom = $$(0);
+const editRuntimeTo = $$(0);
 const editCountry = $$("");
 const editLanguage = $$("");
 const editTotal = $$(0);
@@ -248,111 +304,129 @@ const editFinished = $$(false);
 const modalAddVisible = $$(false);
 const modalEditVisible = $$(false);
 const modalUpdateSeasonsVisible = $$(false);
+const modalFilterVisible = $$(false);
 
 const infoModalVisible = $$(false);
 
+const newSeasonsArray = $$([]);
+
+const updateSeasonsPercentage = $$("1%");
+const updateSeasonsBarVisible = $$(false);
+
 
 export default
-	<div id="main">
-		<h1>List</h1>
-		<hr />
+	<div id="main">		
+		<div class="column left-column">
+			<fieldset>
+				<legend>Serch for new entries</legend>
+				<input type="text" placeholder="Enter Title Here" value={ searchTitle }></input>
 
-		<fieldset>
-			<legend>Serch for new entries</legend>
-			<input type="text" placeholder="Enter Title Here" value={ searchTitle }></input>
+				<button onclick={ search }>Search</button>
 
-			<button onclick={ search }>Search</button>
+				<button onclick={ () => modalAddVisible.val = true }>Add Entry Manually</button>
 
-			<button onclick={ () => modalAddVisible.val = true }>Add Entry Manually</button>
-		</fieldset>
+				<button onclick={ () => modalUpdateSeasonsVisible.val = true }>Check new seasons</button>
+			</fieldset>
 
-		<fieldset>
-			<legend>Search for new seasons</legend>
+			<button onclick={ filterEntries }>Filter</button>
 
-			Checking if there are new seasons for: { currentTitle }
+			<div id="filter-entries-modal" class={ { visible: modalFilterVisible } }>
+			<button onclick={ () => modalFilterVisible.val = false }>&times;</button>
+				<fieldset>
+					<legend>Filter by</legend>
+					<select>
+						<option>Genre</option>
+						<option>Drama</option>
+					</select>
+					<select>
+						<option>Country</option>
+						<option>US</option>
+					</select>
+					</fieldset>
+			</div>
 
-			<hr />
+			
+		</div>
+		<div class="column right-column">
+			
+			{ items.$.map(item => <ListEntry { ...item.$ }></ListEntry>) }
 
-			Total seasons: { editTitle }
+			<div id="add-item-modal" class={  { visible: modalAddVisible }  }>
+			<button onclick={ () => modalAddVisible.val = false } class="close-btn">&times;</button>
+				<fieldset>
+					<legend>Add entry</legend>
+					
+					<h3><input type="text" placeholder="Title" value={ currentTitle } /></h3>
+					<img src={ currentImg } alt="https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg"></img>
 
-			<hr />
+					<ul>
+						<li>Total seasons <input type="number" placeholder="Total Seasones" value={ currentTotal } /></li>
+						<li>Year <input type="number" placeholder="from" value={ currentYearFrom } /> <input type="number" placeholder="to" value={ currentYearTo } /></li>
+						<li>Runtime <input type="number" placeholder="from" value={ currentRuntimeFrom } /> <input type="number" placeholder="to" value={ currentRuntimeTo } /></li>
+						<li>Genre <input type="text" placeholder="Genre" value={ currentGenre } /></li>
+						<li>Country <input type="text" placeholder="Country" value={ currentCountry } /></li>
+						<li>Language <input type="text" placeholder="Language" value={ currentLanguage } /></li>
+						<li>Finished <input type="checkbox" checked={ currentFinished } /></li>
+					</ul>
+				</fieldset>
 
-			<button onclick={ loopSeasonsUpdate }>Include All</button>
-		</fieldset>
+				<button onclick={ addItem }>Add Entry</button>
+			</div>
+
+			<div id="update-seasons-modal" class={ { visible: modalUpdateSeasonsVisible } }>
+				<button onclick={ () => modalUpdateSeasonsVisible.val = false }>&times;</button>
+				<fieldset style="margin: 25px;">
+					<legend>Search for New Seasons</legend>
+					<p>Checking if there are new seasons for: <strong>{ currentTitle }</strong></p>
+
+					<div id="myProgress" class={ { visible: updateSeasonsBarVisible } }>
+					<div id="myBar" style={ { width: updateSeasonsPercentage } }></div>
+					</div>
+
+					<hr />
+
+					<p>Possibly there are new seasons out for:</p>
+					<ul>
+					{ newSeasonsArray.$.map(item =>
+						<li><strong>{ item.title }</strong>: new seasons: { item.number }</li>
+					)}
+					</ul>
+
+					<hr />
+
+					<button onclick={ loopSeasonsUpdate }>Include All</button>
+				</fieldset>
+			</div>
+
+
+			<div id="edit-item-modal" class={ { visible: modalEditVisible } }>
+				<fieldset>
+					<legend>Edit entry</legend>
+					
+					<h3>{ editTitle }</h3>
+
+					<input type="text" placeholder="Title" value={ editTitle } />
+					<input type="number" placeholder="Total Seasones" value={ editTotal } />
+					
+					<ul>
+						<li>Year <input type="number" placeholder="from" value={ editYearFrom } /> <input type="number" placeholder="to" value={ editYearTo } /></li>
+						<li>Runtime <input type="number" placeholder="from" value={ editRuntimeFrom } /> <input type="number" placeholder="to" value={ editRuntimeTo } /></li>
+						<li>Genre <input type="text" placeholder="Genre" value={ editGenre } /></li>
+						<li>Country <input type="text" placeholder="Country" value={ editCountry } /></li>
+						<li>Language <input type="text" placeholder="Language" value={ editLanguage } /></li>
+						<li>Finished <input type="checkbox" checked={ editFinished } /></li>
+					</ul>
+
+				</fieldset>
+
+				<button onclick={ confirmEdit }>Confirm Edit</button>
+			</div>
+		</div>
+
 		
-		{ items.$.map(item => <ListEntry { ...item.$ }></ListEntry>) }
 
-		<div id="add-item-modal" class={  { visible: modalAddVisible }  }>
-		<button onclick={ () => modalAddVisible.val = false } style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">&times;</button>
-			<fieldset>
-				<legend>Add entry</legend>
-				
-				<h3><input type="text" placeholder="Title" value={ currentTitle } /></h3>
-				<img src={ currentImg } alt="https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg"></img>
-
-				<ul>
-					<li>Total seasons <input type="number" placeholder="Total Seasones" value={ currentTotal } /></li>
-					<li>Year <input type="number" placeholder="from" value={ currentYearFrom } /> <input type="number" placeholder="to" value={ currentYearTo } /></li>
-					<li>Runtime <input type="number" placeholder="from" value={ currentRuntimeFrom } /> <input type="number" placeholder="to" value={ currentRuntimeTo } /></li>
-					<li>Genre <input type="text" placeholder="Genre" value={ currentGenre } /></li>
-					<li>Country <input type="text" placeholder="Country" value={ currentCountry } /></li>
-					<li>Language <input type="text" placeholder="Language" value={ currentLanguage } /></li>
-					<li>Finished <input type="checkbox" checked={ currentFinished } /></li>
-				</ul>
-			</fieldset>
-
-			<button onclick={ addItem }>Add Entry</button>
-		</div>
-
-		<div id="update-seasons-modal" class={  { visible: modalUpdateSeasonsVisible }  }>
-			<fieldset>
-				<legend>Search for new seasons</legend>
-
-				Checking if there are new seasons for:
-				
-				{ currentTitle }
-				
-
-				
-			</fieldset>
-
-			<fieldset>
-				<legend>Found:</legend>
-
-				<ul>
-
-				</ul>
-
-			</fieldset>
 
 		
-		</div>
-
-		<div id="edit-item-modal" class={ { visible: modalEditVisible } }>
-			<fieldset>
-				<legend>Edit entry</legend>
-				
-				<h3>{ editTitle }</h3>
-
-				<input type="text" placeholder="Title" value={ editTitle } />
-				<input type="number" placeholder="Total Seasones" value={ editTotal } />
-				
-				<ul>
-					<li>Year <input type="number" placeholder="from" value={ editYearFrom } /> <input type="number" placeholder="to" value={ editYearTo } /></li>
-					<li>Runtime <input type="number" placeholder="from" value={ editRuntimeFrom } /> <input type="number" placeholder="to" value={ editRuntimeTo } /></li>
-					<li>Genre <input type="text" placeholder="Genre" value={ editGenre } /></li>
-					<li>Country <input type="text" placeholder="Country" value={ editCountry } /></li>
-					<li>Language <input type="text" placeholder="Language" value={ editLanguage } /></li>
-					<li>Finished <input type="checkbox" checked={ editFinished } /></li>
-				</ul>
-
-			</fieldset>
-
-			<button onclick={ confirmEdit }>Confirm Edit</button>
-		</div>
-
-
-		<button onclick={ () => modalEditVisible.val = true }>Edit Entry</button>
 		
 
 	</div>

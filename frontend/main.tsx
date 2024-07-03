@@ -3,6 +3,13 @@ import { items } from "../backend/data.ts";
 import InputGroupComponent from "frontend/InputGroupSm.tsx";
 import ModalBody from "frontend/ModalBody.tsx";
 
+// import { useItems, storeItem } from "../backend/data.ts";
+
+import { AuthIcon } from "auth/AuthIcon.tsx";
+
+import { Datex } from "unyt_core/datex.ts";
+
+
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 
 import { props } from "unyt_core/datex_short.ts";
@@ -31,7 +38,6 @@ type MovieData = {
 	totalSeasons: string
 }
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 function generateUniqueId() : string {
 	return Date.now().toString(36);
@@ -308,7 +314,6 @@ const currentImdbRating = $$("");
 const currentImdbVotes = $$("");
 const currentMetascore = $$("");
 const currentPlot = $$("");
-const currentPoster = $$("");
 const currentRated = $$("");
 const currentRatings = $$([]);
 const currentWriter = $$("");
@@ -317,8 +322,6 @@ const currentWriter = $$("");
 const modalAddVisible = $$(false);
 const modalUpdateSeasonsVisible = $$(false);
 const modalFilterVisible = $$(false);
-
-const infoModalVisible = $$(false);
 
 const newSeasonsArray = $$([]);
 
@@ -330,6 +333,7 @@ export default
 	<div id="main" class="container-fluid">	
 		<div class="row">
 			<div class="col-12">
+	
 				<div class="input-group mb-3">
 					<input type="text" 
 						class="form-control" 
@@ -344,7 +348,7 @@ export default
 							id="btn-search-addon">Search
 						</button>
 					</div>
-					or 
+					<div>or</div>
 					<div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
 						<div class="btn-group mr-2" role="group" aria-label="First group">
 							<button type="button" 
@@ -352,14 +356,14 @@ export default
 								data-bs-toggle="modal" 
 								data-bs-target="#addManuallyModal"
 								id="addManuallyButton">
-								Add Entry Manually
+									Add Entry Manually
 							</button>
 							<button type="button" 
 								class="btn btn-primary" 
 								data-bs-toggle="modal" 
 								data-bs-target="#updateSeasonsModal"
 								id="updateSeasonsButton">
-								Check New Seasons
+									Check New Seasons
 							</button>
 						</div>
 					</div>
@@ -372,16 +376,18 @@ export default
 						data-bs-target="#collapseFilter" 
 						aria-expanded="false" 
 						aria-controls="collapseFilter">
-						Filter
+							Filter
 					</button>
 					</p>
 					<div class="collapse" id="collapseFilter">
 					<div class="card card-body">
-						TO DO
+							TO DO
 					</div>
 					</div>
 			</div>
 		</div>
+
+		<div>Test div: {currentTitle}</div>
 
 			
 		<div class="column right-column">
@@ -462,7 +468,12 @@ export default
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
 							</button>
-							<button type="button" onclick={ addItem } class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+							<button type="button" 
+									onclick={ addItem } 
+									class="btn btn-primary" 
+									data-bs-dismiss="modal">
+										Save changes
+							</button>
 						</div>
 					</div>
 				</div>

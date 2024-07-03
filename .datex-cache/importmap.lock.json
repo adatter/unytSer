@@ -8,11 +8,17 @@
         "uix/": "https://cdn.unyt.org/uix@0.2.x/src/",
         "uix/jsx-runtime": "https://cdn.unyt.org/uix@0.2.x/src/jsx-runtime/jsx.ts",
         "unyt-tests/": "https://cdn.unyt.org/unyt_tests/",
+        "auth/": "https://cdn.unyt.org/uix-components-new/AuthNew/",
         "frontend/": "../frontend/",
-        "backend/": "../backend/"
+        "backend/": "../backend/",
+        "common/": "../common/"
     },
     "scopes": {
         "../backend/": {
+            "frontend/": "",
+            "../frontend/": ""
+        },
+        "../common/": {
             "frontend/": "",
             "../frontend/": ""
         }

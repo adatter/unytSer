@@ -1,20 +1,19 @@
 import { ListEntry } from "./ListEntry.tsx";
-import { items } from "../backend/data.ts";
 import InputGroupComponent from "frontend/InputGroupSm.tsx";
-import ModalBody from "frontend/ModalBody.tsx";
-
-// import { useItems, storeItem } from "../backend/data.ts";
+import { useItems, storeItem, deleteItem } from "../backend/data.ts";
 
 import { AuthIcon } from "auth/AuthIcon.tsx";
-
 import { Datex } from "unyt_core/datex.ts";
+
 
 
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 
-import { props } from "unyt_core/datex_short.ts";
 
 const wikiURL = "https://en.wikipedia.org/w/api.php?action=opensearch&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&search="
+
+const items = await useItems();
+
 
 type MovieData = {
 	Title: string,
@@ -38,16 +37,17 @@ type MovieData = {
 	totalSeasons: string
 }
 
-
 function generateUniqueId() : string {
 	return Date.now().toString(36);
 }
-  
 
 function generateSeasons(num: number) : boolean[] {
 	return Array(num).fill(false)
 }
 
+function updateSeasons(num: number, array: number[]) {
+	console.log("TODO")
+}
 
 function addMovie(data: MovieData, method="manually") : void {
 
@@ -111,7 +111,6 @@ function addMovie(data: MovieData, method="manually") : void {
 
 }
 
-
 function search() {
 
 	console.log("search btn", searchTitle.val)
@@ -139,10 +138,8 @@ function search() {
     } 
 }
 
-
-
 function addItem() {
-    items.push({
+    storeItem({
         id: generateUniqueId(),
         title: currentTitle.val,
         genre: currentGenre.val,
@@ -172,8 +169,6 @@ function addItem() {
 
     modalAddVisible.val = false;
 }
-
-
 
 async function loopSeasonsUpdate() {
     updateSeasonsBarVisible.val = true;
@@ -291,6 +286,16 @@ function filterEntries() : void {
 
 }
 
+const seasNum = $$(1);
+const seasNum1 = $$(20);
+const seasArrayOld = $$([true, false, true])
+
+
+const onSeasonsNumChange = always(() => {
+	console.log("onSeasNumChange")
+	// check if length bigger
+	return seasNum1.val - seasArrayOld.length > 0 ? seasArrayOld.concat(Array(seasNum1.val - seasArrayOld.length).fill(true)) : seasArrayOld
+})
 
 
 const searchTitle = $$("");
@@ -328,46 +333,71 @@ const newSeasonsArray = $$([]);
 const updateSeasonsPercentage = $$("1%");
 const updateSeasonsBarVisible = $$(false);
 
+function checkSeason(id, s) {
+	console.log("check season called", id.val, s.val)
+};
+
+function deleteEntry(s) {
+	console.log("called from", s.val)
+
+
+	console.log(items.filter(item => item.id != s))
+};
+
+
+
 
 export default
 	<div id="main" class="container-fluid">	
+	<div class="row">
+		<div class="col-12 col-lg-4">
+		<AuthIcon />
+		</div>
+		<div class="col-12 col-lg-8">
+		
+		<input value={seasNum1}></input>
+
+		{onSeasonsNumChange}
+		{seasArrayOld}
+				
+		</div>
+	</div>
+
 		<div class="row">
-			<div class="col-12">
-	
+			<div class="col-12 col-lg-4">
+				
 				<div class="input-group mb-3">
 					<input type="text" 
-						class="form-control" 
-						placeholder="Enter Title"
-						aria-label="Enter Title" 
-						aria-describedby="btn-search-addon" 
-						value={ searchTitle }/>
-					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" 
-							type="button" 
-							onclick={ search } 
-							id="btn-search-addon">Search
+							class="form-control" 
+							placeholder="Enter Title Here"
+							value={ searchTitle }/>
+					<button class="btn btn-outline-secondary" 
+							type="button"
+							onclick={ search }>
+								Search</button>
+				</div>
+
+				<div class="or-div">
+					<h4>OR</h4>		
+					<div class="btn-group mr-2" role="group" aria-label="First group">
+						<button type="button" 
+							class="btn btn-primary" 
+							data-bs-toggle="modal" 
+							data-bs-target="#addManuallyModal"
+							id="addManuallyButton">
+								Add Entry Manually
+						</button>
+						<button type="button" 
+							class="btn btn-primary" 
+							data-bs-toggle="modal" 
+							data-bs-target="#updateSeasonsModal"
+							id="updateSeasonsButton">
+								Check New Seasons
 						</button>
 					</div>
-					<div>or</div>
-					<div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
-						<div class="btn-group mr-2" role="group" aria-label="First group">
-							<button type="button" 
-								class="btn btn-primary" 
-								data-bs-toggle="modal" 
-								data-bs-target="#addManuallyModal"
-								id="addManuallyButton">
-									Add Entry Manually
-							</button>
-							<button type="button" 
-								class="btn btn-primary" 
-								data-bs-toggle="modal" 
-								data-bs-target="#updateSeasonsModal"
-								id="updateSeasonsButton">
-									Check New Seasons
-							</button>
-						</div>
-					</div>
 				</div>
+
+				<h3>List</h3>
 
 				<p>
 					<button class="btn btn-primary" 
@@ -378,51 +408,40 @@ export default
 						aria-controls="collapseFilter">
 							Filter
 					</button>
-					</p>
-					<div class="collapse" id="collapseFilter">
+				</p>
+				<div class="collapse" id="collapseFilter">
 					<div class="card card-body">
 							TO DO
 					</div>
+				</div>
+				<p>
+					<button class="btn btn-primary" 
+						type="button" 
+						data-bs-toggle="collapse" 
+						data-bs-target="#collapseSort" 
+						aria-expanded="false" 
+						aria-controls="collapseSort">
+							Sort
+					</button>
+				</p>
+				<div class="collapse" id="collapseSort">
+					<div class="card card-body">
+							TO DO
 					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-8">
+				<ul class="list-group">
+					{ items.$.map(item => <ListEntry { ...item.$ } checkSeason={checkSeason} emitId={deleteEntry}></ListEntry>) }
+				</ul>
 			</div>
 		</div>
-
-		<div>Test div: {currentTitle}</div>
-
-			
-		<div class="column right-column">
-			<ul class="list-group">
-				{ items.$.map(item => <ListEntry { ...item.$ }> <button type="button" class="btn">delete</button> </ListEntry>) }
-			</ul>
-
-			{/* <div id="add-item-modal" class={  { visible: modalAddVisible }  }>
-			<button onclick={ () => modalAddVisible.val = false } class="close-btn">&times;</button>
-				<fieldset>
-					<legend>Add entry</legend>
-					
-					<h3><input type="text" placeholder="Title" value={ currentTitle } /></h3>
-					<img src={ currentImg } alt="https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg"></img>
-
-					<ul>
-						<li>Total seasons <input type="number" placeholder="Total Seasones" value={ currentTotal } /></li>
-						<li>Year <input type="number" placeholder="from" value={ currentYearFrom } /> <input type="number" placeholder="to" value={ currentYearTo } /></li>
-						<li>Runtime <input type="number" placeholder="from" value={ currentRuntime} /></li>
-						<li>Genre <input type="text" placeholder="Genre" value={ currentGenre } /></li>
-						<li>Country <input type="text" placeholder="Country" value={ currentCountry } /></li>
-						<li>Language <input type="text" placeholder="Language" value={ currentLanguage } /></li>
-						<li>Finished <input type="checkbox" checked={ currentFinished } /></li>
-					</ul>
-				</fieldset>
-
-				<button onclick={ addItem }>Add Entry</button>
-			</div> */}
-
-			<div class="modal fade" 
-				id="addManuallyModal" 
+		
+		<div id="modal div">
+			<div id="addManuallyModal" 
+				class="modal fade" 
 				tabindex="-1" 
-				role="dialog" 
-				aria-labelledby="addManuallyModalLabel" 
-				aria-hidden="true">
+				role="dialog">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -479,8 +498,8 @@ export default
 				</div>
 			</div>
 
-			<div class="modal fade" 
-				id="updateSeasonsModal" 
+			<div id="updateSeasonsModal" 
+				class="modal fade" 
 				tabindex="-1" 
 				role="dialog" 
 				aria-labelledby="updateSeasonsModalLabel" 

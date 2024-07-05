@@ -288,11 +288,11 @@
 	padding: 0;
 
 	/* Double-sized Checkboxes */
-	-ms-transform: scale(0.7); /* IE */
-	-moz-transform: scale(0.7); /* FF */
-	-webkit-transform: scale(0.7); /* Safari and Chrome */
-	-o-transform: scale(0.7); /* Opera */
-	padding: 10px;
+	-ms-transform: scale(1); /* IE */
+	-moz-transform: scale(1); /* FF */
+	-webkit-transform: scale(1); /* Safari and Chrome */
+	-o-transform: scale(1); /* Opera */
+	padding: 3px;
 
   }
   
@@ -10336,3 +10336,92 @@ button:active {
 	height: 10px;
 	background-color: black;
 }
+
+
+.button-as-text {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-weight: normal;
+    text-decoration: none;
+    padding: 0;
+
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.button-as-text:hover {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #555; /* or any lighter color you prefer */
+}
+
+
+.checkboxSeason {
+	appearance: none;
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .checkboxSeason::before {
+	content: "0";
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    /* color: transparent; */
+    transition: color 0.2s ease-in-out;
+  }
+  
+  .checkboxSeason:checked::before {
+	content:"0";
+	color: gray; /* Optional: change color when checked */
+  }
+  
+
+  
+  /* .input-group-component {
+    color: red;
+    background-color: blue;
+    } */
+
+input:disabled {
+	border: none;
+	background-color: transparent;
+	color: inherit;
+	cursor: text;
+	};
+	
+.input-group input-group-sm mb-3 {
+		padding: 0px;
+		margin: 0px;
+		};
+
+
+textarea {
+			border-top: 0;
+			border-radius: 0px 0px 10px 10px;
+			display: flex;
+			width: 100%;
+			height: 100%;
+			box-sizing: border-box;
+			outline: none!important;
+			resize: none;
+			padding: 10px 20px;
+			overflow: 'hidden';
+			height: 100px;
+		}
+
+		.or-div {
+			text-align: center;
+			align-items: center;
+
+			justify-content: center;
+		}

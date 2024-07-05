@@ -10,13 +10,14 @@ interface Props {
 
 @template(function(this: InputGroupComponent, props) {
     return (
-        <div class="input-group input-group-sm mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">{ props.for }</span>
-            </div>
-            <input type={ props.type } class="form-control" value={ props.value } disabled={this.$.isDisabled} />
-            <button type="button" class="badge text-bg-light" onclick={() => this.toggleDisabled()}>✍</button>
-        </div>
+        <li>
+            <button type="button" 
+                    class="button-as-text" 
+                    data-toggle="tooltip" 
+                    title="Click to edit" 
+                    onclick={() => this.toggleDisabled()}>{ props.for }:</button>
+            <input type={ props.type } class="input-group-component" value={ props.value } disabled={this.$.isDisabled} style="display: inline-block; width: auto;" />
+        </li>
     );
 })
 
@@ -31,7 +32,24 @@ interface Props {
     .input-group input-group-sm mb-3 {
     padding: 0px;
     margin: 0px;
+    };
+
+    .button-as-text {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-weight: normal;
+    text-decoration: none;
+    padding: 0;
     }
+
+    .button-as-text:hover {
+        text-decoration: underline;
+        font-weight: bold;
+        color: #555; /* or any lighter color you prefer */
+    }
+
 `)
 
 class InputGroupComponent extends Component<Props> {

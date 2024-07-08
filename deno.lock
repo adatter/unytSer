@@ -2,7 +2,7 @@
   "version": "3",
   "packages": {
     "specifiers": {
-      "npm:@swc/core@^1.4.2": "npm:@swc/core@1.6.7",
+      "npm:@swc/core@1.6.13": "npm:@swc/core@1.6.13",
       "npm:source-map": "npm:source-map@0.7.4",
       "npm:terser": "npm:terser@5.31.1"
     },
@@ -41,59 +41,59 @@
           "@jridgewell/sourcemap-codec": "@jridgewell/sourcemap-codec@1.4.15"
         }
       },
-      "@swc/core-darwin-arm64@1.6.7": {
-        "integrity": "sha512-sNb+ghP2OhZyUjS7E5Mf3PqSvoXJ5gY6GBaH2qp8WQxx9VL7ozC4HVo6vkeFJBN5cmYqUCLnhrM3HU4W+7yMSA==",
+      "@swc/core-darwin-arm64@1.6.13": {
+        "integrity": "sha512-SOF4buAis72K22BGJ3N8y88mLNfxLNprTuJUpzikyMGrvkuBFNcxYtMhmomO0XHsgLDzOJ+hWzcgjRNzjMsUcQ==",
         "dependencies": {}
       },
-      "@swc/core-darwin-x64@1.6.7": {
-        "integrity": "sha512-LQwYm/ATYN5fYSYVPMfComPiFo5i8jh75h1ASvNWhXtS+/+k1dq1zXTJWZRuojd5NXgW3bb6mJtJ2evwYIgYbA==",
+      "@swc/core-darwin-x64@1.6.13": {
+        "integrity": "sha512-AW8akFSC+tmPE6YQQvK9S2A1B8pjnXEINg+gGgw0KRUUXunvu1/OEOeC5L2Co1wAwhD7bhnaefi06Qi9AiwOag==",
         "dependencies": {}
       },
-      "@swc/core-linux-arm-gnueabihf@1.6.7": {
-        "integrity": "sha512-kEDzVhNci38LX3kdY99t68P2CDf+2QFDk5LawVamXH0iN5DRAO/+wjOhxL8KOHa6wQVqKEt5WrhD+Rrvk/34Yw==",
+      "@swc/core-linux-arm-gnueabihf@1.6.13": {
+        "integrity": "sha512-f4gxxvDXVUm2HLYXRd311mSrmbpQF2MZ4Ja6XCQz1hWAxXdhRl1gpnZ+LH/xIfGSwQChrtLLVrkxdYUCVuIjFg==",
         "dependencies": {}
       },
-      "@swc/core-linux-arm64-gnu@1.6.7": {
-        "integrity": "sha512-SyOBUGfl31xLGpIJ/Jd6GKHtkfZyHBXSwFlK7FmPN//MBQLtTBm4ZaWTnWnGo4aRsJwQdXWDKPyqlMBtnIl1nQ==",
+      "@swc/core-linux-arm64-gnu@1.6.13": {
+        "integrity": "sha512-Nf/eoW2CbG8s+9JoLtjl9FByBXyQ5cjdBsA4efO7Zw4p+YSuXDgc8HRPC+E2+ns0praDpKNZtLvDtmF2lL+2Gg==",
         "dependencies": {}
       },
-      "@swc/core-linux-arm64-musl@1.6.7": {
-        "integrity": "sha512-1fOAXkDFbRfItEdMZPxT3du1QWYhgToa4YsnqTujjE8EqJW8K27hIcHRIkVuzp7PNhq8nLBg0JpJM4g27EWD7g==",
+      "@swc/core-linux-arm64-musl@1.6.13": {
+        "integrity": "sha512-2OysYSYtdw79prJYuKIiux/Gj0iaGEbpS2QZWCIY4X9sGoETJ5iMg+lY+YCrIxdkkNYd7OhIbXdYFyGs/w5LDg==",
         "dependencies": {}
       },
-      "@swc/core-linux-x64-gnu@1.6.7": {
-        "integrity": "sha512-Gp7uCwPsNO5ATxbyvfTyeNCHUGD9oA+xKMm43G1tWCy+l07gLqWMKp7DIr3L3qPD05TfAVo3OuiOn2abpzOFbw==",
+      "@swc/core-linux-x64-gnu@1.6.13": {
+        "integrity": "sha512-PkR4CZYJNk5hcd2+tMWBpnisnmYsUzazI1O5X7VkIGFcGePTqJ/bWlfUIVVExWxvAI33PQFzLbzmN5scyIUyGQ==",
         "dependencies": {}
       },
-      "@swc/core-linux-x64-musl@1.6.7": {
-        "integrity": "sha512-QeruGBZJ15tadqEMQ77ixT/CYGk20MtlS8wmvJiV+Wsb8gPW5LgCjtupzcLLnoQzDG54JGNCeeZ0l/T8NYsOvA==",
+      "@swc/core-linux-x64-musl@1.6.13": {
+        "integrity": "sha512-OdsY7wryTxCKwGQcwW9jwWg3cxaHBkTTHi91+5nm7hFPpmZMz1HivJrWAMwVE7iXFw+M4l6ugB/wCvpYrUAAjA==",
         "dependencies": {}
       },
-      "@swc/core-win32-arm64-msvc@1.6.7": {
-        "integrity": "sha512-ouRqgSnT95lTCiU/6kJRNS5b1o+p8I/V9jxtL21WUj/JOVhsFmBErqQ0MZyCu514noWiR5BIqOrZXR8C1Knx6Q==",
+      "@swc/core-win32-arm64-msvc@1.6.13": {
+        "integrity": "sha512-ap6uNmYjwk9M/+bFEuWRNl3hq4VqgQ/Lk+ID/F5WGqczNr0L7vEf+pOsRAn0F6EV+o/nyb3ePt8rLhE/wjHpPg==",
         "dependencies": {}
       },
-      "@swc/core-win32-ia32-msvc@1.6.7": {
-        "integrity": "sha512-eZAP/EmJ0IcfgAx6B4/SpSjq3aT8gr0ooktfMqw/w0/5lnNrbMl2v+2kvxcneNcF7bp8VNcYZnoHlsP+LvmVbA==",
+      "@swc/core-win32-ia32-msvc@1.6.13": {
+        "integrity": "sha512-IJ8KH4yIUHTnS/U1jwQmtbfQals7zWPG0a9hbEfIr4zI0yKzjd83lmtS09lm2Q24QBWOCFGEEbuZxR4tIlvfzA==",
         "dependencies": {}
       },
-      "@swc/core-win32-x64-msvc@1.6.7": {
-        "integrity": "sha512-QOdE+7GQg1UQPS6p0KxzJOh/8GLbJ5zI1vqKArCCB0unFqUfKIjYb2TaH0geEBy3w9qtXxe3ZW6hzxtZSS9lDg==",
+      "@swc/core-win32-x64-msvc@1.6.13": {
+        "integrity": "sha512-f6/sx6LMuEnbuxtiSL/EkR0Y6qUHFw1XVrh6rwzKXptTipUdOY+nXpKoh+1UsBm/r7H0/5DtOdrn3q5ZHbFZjQ==",
         "dependencies": {}
       },
-      "@swc/core@1.6.7": {
-        "integrity": "sha512-BBzORL9qWz5hZqAZ83yn+WNaD54RH5eludjqIOboolFOK/Pw+2l00/H77H4CEBJnzCIBQszsyqtITmrn4evp0g==",
+      "@swc/core@1.6.13": {
+        "integrity": "sha512-eailUYex6fkfaQTev4Oa3mwn0/e3mQU4H8y1WPuImYQESOQDtVrowwUGDSc19evpBbHpKtwM+hw8nLlhIsF+Tw==",
         "dependencies": {
-          "@swc/core-darwin-arm64": "@swc/core-darwin-arm64@1.6.7",
-          "@swc/core-darwin-x64": "@swc/core-darwin-x64@1.6.7",
-          "@swc/core-linux-arm-gnueabihf": "@swc/core-linux-arm-gnueabihf@1.6.7",
-          "@swc/core-linux-arm64-gnu": "@swc/core-linux-arm64-gnu@1.6.7",
-          "@swc/core-linux-arm64-musl": "@swc/core-linux-arm64-musl@1.6.7",
-          "@swc/core-linux-x64-gnu": "@swc/core-linux-x64-gnu@1.6.7",
-          "@swc/core-linux-x64-musl": "@swc/core-linux-x64-musl@1.6.7",
-          "@swc/core-win32-arm64-msvc": "@swc/core-win32-arm64-msvc@1.6.7",
-          "@swc/core-win32-ia32-msvc": "@swc/core-win32-ia32-msvc@1.6.7",
-          "@swc/core-win32-x64-msvc": "@swc/core-win32-x64-msvc@1.6.7",
+          "@swc/core-darwin-arm64": "@swc/core-darwin-arm64@1.6.13",
+          "@swc/core-darwin-x64": "@swc/core-darwin-x64@1.6.13",
+          "@swc/core-linux-arm-gnueabihf": "@swc/core-linux-arm-gnueabihf@1.6.13",
+          "@swc/core-linux-arm64-gnu": "@swc/core-linux-arm64-gnu@1.6.13",
+          "@swc/core-linux-arm64-musl": "@swc/core-linux-arm64-musl@1.6.13",
+          "@swc/core-linux-x64-gnu": "@swc/core-linux-x64-gnu@1.6.13",
+          "@swc/core-linux-x64-musl": "@swc/core-linux-x64-musl@1.6.13",
+          "@swc/core-win32-arm64-msvc": "@swc/core-win32-arm64-msvc@1.6.13",
+          "@swc/core-win32-ia32-msvc": "@swc/core-win32-ia32-msvc@1.6.13",
+          "@swc/core-win32-x64-msvc": "@swc/core-win32-x64-msvc@1.6.13",
           "@swc/counter": "@swc/counter@0.1.3",
           "@swc/types": "@swc/types@0.1.9"
         }
@@ -217,6 +217,7 @@
     "https://cdn.unyt.org/datex-core-js-legacy@0.1.x/storage/storage-locations/local-storage-compat.ts": "d49a9ef4a95bf875c213964681362d896545116a3859141859222f342475eb79",
     "https://cdn.unyt.org/datex-core-js-legacy@0.1.x/storage/storage-locations/local-storage.ts": "8abad8288c38090e2b615bb83b06300a397aba86d3481f8ef7f5468e0f87eb0c",
     "https://cdn.unyt.org/datex-core-js-legacy@0.1.x/storage/storage.ts": "ac46dc1ba7f20aac43d6d5312c6a8de0827c456bc2c9452a6433e8f340ae9ebf",
+    "https://cdn.unyt.org/datex-core-js-legacy@0.1.x/types/abstract_types.ts": "04ad3192b3b0973fdf28f730dd6f16feb63b6d9ea0963e280d035889d8abb0c8",
     "https://cdn.unyt.org/datex-core-js-legacy@0.1.x/types/addressing.ts": "62c8a48b84237409780faf7601daf9abbf581036005218f3b9b60cc66e89cbf4",
     "https://cdn.unyt.org/datex-core-js-legacy@0.1.x/types/assertion.ts": "ffa9614cf4ad904df1007d0a6441788eceb3347d26791771372c17b9249ea2ce",
     "https://cdn.unyt.org/datex-core-js-legacy@0.1.x/types/deferred.ts": "eb308e59468c7ca5bd3179e4aa86b5c73d7c4de60d1d656a6c244e3414e61e0d",
@@ -282,10 +283,10 @@
     "https://cdn.unyt.org/datex-core-js-legacy@0.1.x/utils/volatile-map.ts": "c60551a48b4900b8e29f0601c2d5cc9f9f0063b86e1d8a70c5a4369faa2b11cc",
     "https://cdn.unyt.org/datex-core-js-legacy@0.1.x/utils/weak-action.ts": "1b792c3992e54a72b0d3b89eccf5fbe8fa3b11f0b545f0551eaef1f0ae684345",
     "https://cdn.unyt.org/datex-core-js-legacy@0.1.x/wasm/adapter/pkg/datex_wasm.js": "e9416983fb275de1cd28849c3cb85ba3d3be05032e9246c73fe217e7a2d422c5",
-    "https://cdn.unyt.org/uix@0.2.x/VERSION.ts": "110597398b857189361d485151dea7e91d7844b163e5e8c0cb42617c1a46ffa2",
+    "https://cdn.unyt.org/uix@0.2.x/VERSION.ts": "cfd136f8cd612928032165d7f61b1f0a02dbb262ca95f9a82c2353e27cfa53ea",
     "https://cdn.unyt.org/uix@0.2.x/src/app/app-data-standalone.ts": "c56dd818a5efa82d8588396c71d6e91b57993a3a65a1f960a317b9623e960e62",
     "https://cdn.unyt.org/uix@0.2.x/src/app/app-data.ts": "b0c79ef26abc1a960215357097fdd85592f9060d2da3c59420956b1441c8b711",
-    "https://cdn.unyt.org/uix@0.2.x/src/app/app.ts": "955f6177f13320a3e6a99e4d75fd3506a0a1278318aa69c9b82b04bb6f4d34a9",
+    "https://cdn.unyt.org/uix@0.2.x/src/app/app.ts": "f26281392904f653d130ffa34c8bb99222dba465f9c9e0fcb30d486b7f0be7f4",
     "https://cdn.unyt.org/uix@0.2.x/src/app/args.ts": "2f028bd219dcfc4bfaeb1a0ca1d38cd7117058d956082c2797d3ab557d89649d",
     "https://cdn.unyt.org/uix@0.2.x/src/app/backend-manager.ts": "853beac69ced8d374ac2cb88cf50ba8daf59a32e70b871f7da8abf9f048a98b6",
     "https://cdn.unyt.org/uix@0.2.x/src/app/config-files.ts": "d71d87005450503efaca4dc2c15064728dffc20cf5485c2144cc7a800ac6de1b",
@@ -297,19 +298,19 @@
     "https://cdn.unyt.org/uix@0.2.x/src/app/dom-context.ts": "3ecf992fbca21af79bbc199208b008c5a2201db33b329000daf1dadac202eb2d",
     "https://cdn.unyt.org/uix@0.2.x/src/app/errors.ts": "b5e99890ddeb29bb2e5415d5ff989346e3d27356f02df86b08b69cbc03a3c35d",
     "https://cdn.unyt.org/uix@0.2.x/src/app/eternal-module-generator.ts": "5d89e4ee9cecec50a333c39364974b805ac327555a36e4a742934e261fe9e10f",
-    "https://cdn.unyt.org/uix@0.2.x/src/app/frontend-manager.ts": "a1403626c8a1a7408c288f8762e586af2bd81ddc385264c13cebd0c81e2921c1",
+    "https://cdn.unyt.org/uix@0.2.x/src/app/frontend-manager.ts": "5f4bf58df3d684cdc9d94d28617616c7415c5499d7def27434b47c8ed457a796",
     "https://cdn.unyt.org/uix@0.2.x/src/app/http-over-datex.ts": "3fb351df88ce6c73831dbcc16bd23d1d8c54d61c175a0e1cc1751f6b6c3a958f",
     "https://cdn.unyt.org/uix@0.2.x/src/app/module-mapping.ts": "912bd508e23ac67d14cd76bc81f366bbc196f4aea046d3426261de99d7c22c0c",
     "https://cdn.unyt.org/uix@0.2.x/src/app/options.ts": "e8736c800f1db6f5344d5db05d0a80286a4abe16640bc7e05fc95ab3d28e1e6e",
     "https://cdn.unyt.org/uix@0.2.x/src/app/shared-deno.ts": "e389bf1241c0d97322ec62429b3a61ee7b4973dd4e319b081575063dc128e0f9",
     "https://cdn.unyt.org/uix@0.2.x/src/app/sse-observer.ts": "1ba18a892606ccb188a95d7c5d9bb92abe05587289583023eb25b3dd9472f2af",
-    "https://cdn.unyt.org/uix@0.2.x/src/app/start-app.ts": "5364bc0318f710ee8bc08941ead6f65daaf73ed61d0d6082c8d235900ed7a056",
+    "https://cdn.unyt.org/uix@0.2.x/src/app/start-app.ts": "ff4b30875f8a0fdec8e7dc093502e8293f0516fbf270742275e2af6ba7653c22",
     "https://cdn.unyt.org/uix@0.2.x/src/app/start.ts": "c666783ad8c197207c17291cc81dac0e5e836a545e7c7a9a2bb000ba76604ebb",
     "https://cdn.unyt.org/uix@0.2.x/src/app/utils.ts": "618055bb895e42f8ea36d269064c9643b6d9ec6b829f6e76665e8acf4f4210e1",
     "https://cdn.unyt.org/uix@0.2.x/src/base/decorators.ts": "3aab25e6b5d577cc896c9f69a5c015c27f41a761c738fb82008da564134ec811",
     "https://cdn.unyt.org/uix@0.2.x/src/base/init.ts": "9edbe5ad55893ceeb717b2067e0dd471f75f701165575a3d6d3165b8ee8094be",
     "https://cdn.unyt.org/uix@0.2.x/src/base/open-graph.ts": "b86da73ca92d9250eeeb4de1a90bf429511dfd0120908fb31eef36f5b7313aa6",
-    "https://cdn.unyt.org/uix@0.2.x/src/base/render-methods.ts": "d696cbb13a7e281aff4f3c2aa373080f31584677db2283ac31aac8503dc4f4b1",
+    "https://cdn.unyt.org/uix@0.2.x/src/base/render-methods.ts": "9d3225f3e65689ffd33ee60f8dfca10028b8512f2fe628dc7839420687db15eb",
     "https://cdn.unyt.org/uix@0.2.x/src/base/theme-manager.ts": "f6a24aece6277c48f5adba5b859a7d0a61014ab5b1d07eab6274c773af047f27",
     "https://cdn.unyt.org/uix@0.2.x/src/base/uix-datex-module.ts": "bef53f28da5d5db44aed935309b2c47a509d3a8c1eac44d3dd2de9e3a138b29d",
     "https://cdn.unyt.org/uix@0.2.x/src/components/Component.ts": "71d257f85d28b8f0e2f5c9ddca0eeee70045e0c500cb4110b57bf35aa0d73127",
@@ -319,9 +320,9 @@
     "https://cdn.unyt.org/uix@0.2.x/src/html/errors.tsx": "7850c56753f44f72c1d1e2bd938c6d7941d6250f22c389c5fddbeafd811107e8",
     "https://cdn.unyt.org/uix@0.2.x/src/html/html-provider.ts": "101c4de65920a75335845840534ef6d960d2d620dafda73ac3cbf2219447e7a2",
     "https://cdn.unyt.org/uix@0.2.x/src/html/http-error.ts": "459bb3831dee4359d9e219b8557a0ae02f3e4329fcffedb46fc57faa5b393964",
-    "https://cdn.unyt.org/uix@0.2.x/src/html/http-status.ts": "3c6218e5bd212487a15ab9c77d4a525367f741b7dd730067199ff481ecf52a6f",
+    "https://cdn.unyt.org/uix@0.2.x/src/html/http-status.ts": "84835716ebf27c6156628128d85477a30dc0f29dab630fb10d3eb8eff1d8b781",
     "https://cdn.unyt.org/uix@0.2.x/src/html/light-root.ts": "e9614ebc8ba2e75fda3dbac81fe6e1851cb110cbb701b7c460758d3c2c792f2b",
-    "https://cdn.unyt.org/uix@0.2.x/src/html/render.ts": "7528bc0780cb93ffb75c114d8e2878f6d2b6cdd7b848784366d5ef9995f4d361",
+    "https://cdn.unyt.org/uix@0.2.x/src/html/render.ts": "a6b28ed9af287c4996883c9c377fe5ca2a30af3facf33a10ca590a1405781cba",
     "https://cdn.unyt.org/uix@0.2.x/src/html/style.ts": "5ab9e86592233f653c2242d2bcd4f24ec1b39323220adceb1e333026a0e97cda",
     "https://cdn.unyt.org/uix@0.2.x/src/html/template-strings.ts": "37b1f431533462996012c15fb1d1170a5aa1afcf43fb4fbcbcc00e6277b61fa9",
     "https://cdn.unyt.org/uix@0.2.x/src/html/template.ts": "eb76d1dd5cc0ddf24801e57fc511effde7eb2d786c29aabe2204ff31d246f5fd",
@@ -332,14 +333,14 @@
     "https://cdn.unyt.org/uix@0.2.x/src/lib/cookie/cookie.ts": "1361b7b5a338f29a85508b9743e29c79376ea72f98ee88a2e198b0a5c10672da",
     "https://cdn.unyt.org/uix@0.2.x/src/lib/urlpattern-polyfill/dist/urlpattern.js": "a2584e42c3b3892e58f0175d5a1a9e9018075b07b1eda68555fbd84290afece0",
     "https://cdn.unyt.org/uix@0.2.x/src/lib/urlpattern-polyfill/index.js": "a2def73224631dbc20797cb103a0be3e51c0b9b8a9eb4621b3d1d6267c6bd5fe",
-    "https://cdn.unyt.org/uix@0.2.x/src/routing/backend-entrypoint-proxy.ts": "ef5d4491c359b5eef21aa31719ec7bdf8ac8c0bbb54e5c21630986fd0f2eea7e",
+    "https://cdn.unyt.org/uix@0.2.x/src/routing/backend-entrypoint-proxy.ts": "a47eaa7788560861338ab1ae4f77aecef700a75b6540e4963011b3c73180d6e7",
     "https://cdn.unyt.org/uix@0.2.x/src/routing/context.ts": "2454b0df1d99862d937dbc7c8d96d48a9e3988df8bb97bb1c0c977211f2ec63c",
     "https://cdn.unyt.org/uix@0.2.x/src/routing/frontend-routing.ts": "537a54b6a13b73e0cc01030cde222cf90e1a836cb4602a881d7c695f895f095b",
-    "https://cdn.unyt.org/uix@0.2.x/src/routing/rendering.ts": "66c546be6a28d884b7dd76f32a27653a2de4fd925e846bb0da6e5d7f4b82c086",
+    "https://cdn.unyt.org/uix@0.2.x/src/routing/rendering.ts": "9a385842aa0a7600e171ee1855fbf4fc98b7a7b1159ac4fa028af9247cfea3f5",
     "https://cdn.unyt.org/uix@0.2.x/src/routing/route-filter.ts": "d9f1d5b3a658c6936279ec4e2e88d658bc53524a89d95c5f4b6c234d88142eb4",
     "https://cdn.unyt.org/uix@0.2.x/src/server/network-interface.ts": "ace1233ce768114ad6af0b4b37a70b9717cfa916d9e3e0be64df34dcc048b987",
-    "https://cdn.unyt.org/uix@0.2.x/src/server/server.ts": "1b7c1a1730a6268d2374bb03c8feda58bc544353f49f236a8a6b030b811f2d73",
-    "https://cdn.unyt.org/uix@0.2.x/src/server/transpiler.ts": "fb9e64140779465bad6c9bf34713436e4fcefe9fa8d16710d80613388a1c8868",
+    "https://cdn.unyt.org/uix@0.2.x/src/server/server.ts": "8ce7908f12bca7dc4131f4e3a5fee110a9cd8b9a7768d72d49859d73f51077e4",
+    "https://cdn.unyt.org/uix@0.2.x/src/server/transpiler.ts": "aa22c369a32aa577d0fe4891d488ea98678ac48b0caefad917666f2a6a785e2b",
     "https://cdn.unyt.org/uix@0.2.x/src/server/ts-import-resolver.ts": "e7557240c5c26469611fcef47442d9f06146a8bd52d1857145212e5ff526f2b3",
     "https://cdn.unyt.org/uix@0.2.x/src/session/backend.ts": "731ab75fbdd9ff7d092db45ea8984af9b1130baa56fdcd14607a0006b083437b",
     "https://cdn.unyt.org/uix@0.2.x/src/session/cookies.ts": "6ff23ff732e53a7148ab933adaa09fa5248f456c87ee786d1bcfe8b4db0b33bb",
@@ -353,12 +354,13 @@
     "https://cdn.unyt.org/uix@0.2.x/src/themes/uix-dark.ts": "07add98e76ace003c92e1c456958b7e37cd72a4e38ef0fec8c319c9797a43f0d",
     "https://cdn.unyt.org/uix@0.2.x/src/themes/uix-light-plain.ts": "99e9f1369b09963a9e9ac75d1d29219163ee2c147c559c62ca2e56cd9c3f85db",
     "https://cdn.unyt.org/uix@0.2.x/src/themes/uix-light.ts": "035fd32ee342f9ecd30050157bfe7e218cb864630481ed24aa9ef92360bad236",
-    "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/attributes.ts": "a4536179fd3f719ec79e3800170935b6a0f87d6e71c48eee4b9093db8c3a4395",
+    "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/attributes.ts": "1e4662d45319ac42cda23fd8f23d6536174676e19df4cb31573984b30d1b1b32",
     "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/datex-bindings/dom-datex-types.ts": "ff09d962d28d4e19c57f49c9de907c2073a9eebc4b949b8e27aaaf731b04f494",
     "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/datex-bindings/dom-utils.ts": "336e3cb4900519ae229ae7f3fa0ca763e02fce1da3a52ec7dee508be845be5e9",
     "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/datex-bindings/mod.ts": "2c247ce4014d368b546547e121ac1f4625194e06639467f8a7b8010b84ab2ca5",
     "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/datex-bindings/transform-wrapper.ts": "3a3608c0b44631c76480f0bb17950fa678047e9e81076593d0e0629367422c1d",
     "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/datex-bindings/type-definitions.ts": "bf41cf7475a5016a05daac4263ab6e753eea51a2f5791264a54d973694f343aa",
+    "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/dom/DOMContext.ts": "6159e81a1e1cb805bb3d609101aa2d09233e7d42c51b0e82640b3202b1aabfa0",
     "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/dom/deno-dom/build/deno-wasm/deno-wasm.js": "98b1ad24a1c13284557917659402202e5c5258ab1431b3f3a82434ad36ffa05a",
     "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/dom/deno-dom/deno-dom-wasm.ts": "bfd999a493a6974e9fca4d331bee03bfb68cfc600c662cd0b48b21d67a2a8ba0",
     "https://cdn.unyt.org/uix@0.2.x/src/uix-dom/dom/deno-dom/src/api.ts": "bd984e679388a16bd205f29ba71fe8ec590223fbb9de7b42fdf0f89171b43ff0",
@@ -418,7 +420,7 @@
     "https://cdn.unyt.org/uix@0.2.x/src/utils/file-utils.ts": "a225ff1b0b9a491cc0e0b185ec680c861e1dcc93bb4d5358ae80ebc03461e9c5",
     "https://cdn.unyt.org/uix@0.2.x/src/utils/files.ts": "e75eff4859b0f0a75dd7e85c037c5c5678b9eaac508eb08873fb94d0216a0b3e",
     "https://cdn.unyt.org/uix@0.2.x/src/utils/global-values.ts": "4c19df55484c68d87066a46ada32ae8fa7b74899af57452a7adb1dae5f6a8705",
-    "https://cdn.unyt.org/uix@0.2.x/src/utils/handle-issue.ts": "fd9842efc5d0fd6eef753f52a87b3ea73cebdec1261bbd1e9c7b617cf0eee4dd",
+    "https://cdn.unyt.org/uix@0.2.x/src/utils/handle-issue.ts": "e4328e4106b6d46355ff9d23da13a3b9e88dfe5c339fe0d9e021dc657e28db2a",
     "https://cdn.unyt.org/uix@0.2.x/src/utils/importmap.ts": "30538af1ac697bb64c4a605f41e5aecf2dd6b317574cf373ef95cafbe7ed2972",
     "https://cdn.unyt.org/uix@0.2.x/src/utils/path.ts": "42a79dad5df02fe1e228c7f74621219e7ee6985da6b5409c1c1353ea7c2295f9",
     "https://cdn.unyt.org/uix@0.2.x/src/utils/safari.ts": "d1648e3eaa244e52f65572e64ada5f1ce286a3f4baca8b712bf09b9204032d5b",
@@ -578,7 +580,10 @@
     "https://deno.land/x/caller_metadata@v0.0.3/src/main.ts": "2258e7eb41a54ac9a99058f40a487c6313232feafcb5f02f22d51fe6b526dd73",
     "https://deno.land/x/deno_doc@0.68.0/deno_doc.generated.js": "ce740865fa54227ad1a6233858243086c40ff3e35ead71deb214488cea09c280",
     "https://deno.land/x/deno_doc@0.68.0/mod.ts": "821aebc531d5070b2bace479f29820b8ef610aaca934733e59ddc81697025e5f",
+    "https://deno.land/x/deno_graph@0.53.0/deno_graph_wasm.generated.js": "2cbaec012743f138172c0aff377c589ca1dd25331b77acada8ea4aafd6ec8bb4",
     "https://deno.land/x/deno_graph@0.53.0/loader.ts": "a2e757383908f4a51659fe1b1203386887ebb17756bac930a64856d613d8d57d",
+    "https://deno.land/x/deno_graph@0.53.0/media_type.ts": "a89a1b38d07c160e896de9ceb99285ba8391940140558304171066b5c3ef7609",
+    "https://deno.land/x/deno_graph@0.53.0/mod.ts": "e4bdddf09d8332394ac4b2e7084f7f4fbbbf09dff344cac9bd60f5e20b4f12e0",
     "https://deno.land/x/denosass@1.0.6/mod.ts": "5e9c142055d658f3acb2b370d0b412c783ed4b27db830f387525fb7f69a7ab3d",
     "https://deno.land/x/denosass@1.0.6/src/deps.ts": "cb5fa11799e3def8b593be3b5939d2755a2c7f1f4987f3af1bc4ad90922d3715",
     "https://deno.land/x/denosass@1.0.6/src/mod.ts": "d2b63172f98238f77831995a5d6c8a06af5252ad8fbe7b9ec40b60eae86f2164",

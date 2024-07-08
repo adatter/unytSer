@@ -1,16 +1,17 @@
 import { Component } from "uix/components/Component.ts";
 import { template } from "uix/html/template.ts";
-import InputGroupComponent from "frontend/InputGroupSm.tsx";
-import ModalBody from "frontend/ModalBody.tsx";
+
+
 import { Textarea } from "./Textarea.tsx";
 
-const content = $$("blah");
+import InputGroupComponent from "frontend/InputGroupSm.tsx";
 
-const autoTextarea = <Textarea value={content}/>;
+
 
 const editMode = $$(true);
 
 const currentMark = $$("");
+
 
 
 type Props = {
@@ -40,12 +41,7 @@ type Props = {
     year_from?: number,
     year_to?: number,
 
-	emitId: (id: string) => undefined,
-	checkSeason: (id: string) => undefined,
-}
-
-function onVariableChange(newValue: string) {
-	console.log("changed to:", newValue)
+	addWikiInfo: (title: string) => undefined,
 }
 
 
@@ -56,63 +52,76 @@ const availibleMarks = $$(["👍", "👎", "❤️", "💔", "❌", "❗️","�
 
 
 
+
 @template<Props>((props) =>
 		<li class="list-group-item">
-				<a class="btn btn-outline movie-mark" 
-					href="#" role="button" 
-					id="dropdownMenuLink" 
-					data-bs-toggle="dropdown" 
-					data-toggle="tooltip"
-					title="Click to edit">
-					{ props.mark }
-				</a>
+			<table>
+				<tbody>
+					<tr class="custom-line-height">
+						<td>
+							<a class="btn btn-outline movie-mark" 
+								href="#" role="button" 
+								id="dropdownMenuLink" 
+								data-bs-toggle="dropdown" 
+								data-toggle="tooltip"
+								title="Click to edit">
+								{ props.mark }
+							</a>
 
-				<div class="dropdown-menu">
-					{availibleMarks.map((mark) => <button class="dropdown-item" onclick={() => props.mark.val = mark}>{mark}</button>)}
-					<button class="dropdown-item" data-toggle="tooltip" title="Add custom" data-bs-toggle="modal" data-bs-target="#addReactionModal">+</button>
-				</div>
-			
-			<input style="margin-right:10px;" type="checkbox" checked={ props.seasons.every(el => el) }></input>
+							<div class="dropdown-menu">
+								{ availibleMarks.map((mark) => <button class="dropdown-item" onclick={ () => props.mark.val = mark }>{ mark }</button>) }
+								<button class="dropdown-item" data-toggle="tooltip" title="Add custom" data-bs-toggle="modal" data-bs-target="#addReactionModal">+</button>
+							</div>
+						
+							<input style="margin-right:10px;" type="checkbox" style="opacity:0;" checked={ props.seasons.every(el => el) }></input>
+						</td>
+						<td>
+							<a class="button-as-link movie-title" 
+								data-bs-toggle="collapse" 
+								href={ `#collapseInfo-${props.id}` }
+								role="button" 
+								aria-expanded="false" 
+								aria-controls={ `collapseInfo-${props.id}` }>
+								{ props.title }
+							</a>
+						</td>
+						<td>
+							{ props.$.seasons.$.map((_, index) => <button class={`season-check ${checkedBtn(props.$.seasons.$[index])}`} onclick={ () => props.$.seasons.$[index].val = !props.$.seasons.$[index].val }>{index + 1}</button>) }
 
-			<a class="button-as-link movie-title" 
-				data-bs-toggle="collapse" 
-				href={ `#collapseInfo-${props.id}` }
-				role="button" 
-				aria-expanded="false" 
-				aria-controls={ `collapseInfo-${props.id}` }>
-				{ props.title }
-			</a>
+							<button class="season-check" data-toggle="tooltip" title="Add a season" onclick={ () => props.seasons.push(false) }>+</button>
+							{/* <button class="button-as-text" style="float:right" onclick={() => props.emitId(props.id)}>🗑️</button> */}
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
-			{ props.$.seasons.$.map((_, index) => <button class={`season-check ${checkedBtn(props.$.seasons.$[index])}`} onclick={() => props.$.seasons.$[index].val = !props.$.seasons.$[index].val}>{index + 1}</button>) }
-
-			<button class="button-as-text" style="float:right" onclick={() => props.emitId(props.id)}>🗑️</button>
-
-			<div class="collapse" id={ `collapseInfo-${props.id}` }>
+			<div class="collapse" id={ `collapseInfo-${ props.id }` }>
 				<div class="card w-100">
 					<div class="d-flex">
-						<img class="poster-img" src={props.poster} alt="none" style="max-height:100%; max-width:100%" />
+						<img class="poster-img" src={ props.poster } alt="none" style="max-height:100%; max-width:100%" />
 						<div class="card-body">
-							<h5 class="card-title">{props.title}</h5>
+							<InputGroupComponent for="Title" type="text" value={props.title} />
 
-							<form>
-								<div class="form-group">
-									<label for="exampleForm">Upload A Poster</label>
-									<input type="file" class="form-control-file" id="exampleForm" />
-								</div>
-							</form>
-							<div style="height: 120px;">
+							<button class="badge rounded-pill bg-light text-dark" onclick={ () => props.addWikiInfo(props.title) }>Search Additional Info </button>
+
+							<div class="additionalInfo">
+								
+							</div>
+
+							<div style="height: 125px;">
 								{always(() => editMode.val ? <p class="card-text">{props.plot}</p> : <p><Textarea value={props.plot}/></p>)}
 							</div>
-							<button onclick={() => (editMode.val = !editMode.val)}>
+							<button class="badge rounded-pill bg-light text-dark" onclick={() => (editMode.val = !editMode.val)}>
 								{always(() => editMode.val ? "Edit description" : "Save Changes")}
 							</button>
 
-							<InputGroupComponent for="Title" type="text" value={props.title} />
 							<InputGroupComponent for="Total Seasons" type="number" value={props.$.total_seasons} />
 							<InputGroupComponent for="Year From" type="number" value={props.year_from} />
 							<InputGroupComponent for="Year To" type="number" value={props.year_to} />
 							<InputGroupComponent for="Runtime" type="number" value={props.runtime} />
 							<InputGroupComponent for="Genre" type="text" value={props.genre} />
+
+							<InputGroupComponent for="Poster" type="url" value={props.poster} />
 						</div>
 					</div>
 
@@ -186,6 +195,8 @@ const availibleMarks = $$(["👍", "👎", "❤️", "💔", "❌", "❗️","�
 									</div>
 								</form>
 
+							
+
 							<InputGroupComponent for="Title" type="text" value={props.$.title} />
 							<InputGroupComponent for="Total Seasons" type="number" value={props.total_seasons} />
 							<InputGroupComponent for="Year From" type="number" value={props.year_from} />
@@ -226,8 +237,3 @@ const availibleMarks = $$(["👍", "👎", "❤️", "💔", "❌", "❗️","�
 `)
 
 export class ListEntry extends Component<Props> {}
-
-
-// li:has(input:checked) {
-// 	text-decoration: line-through;
-// }

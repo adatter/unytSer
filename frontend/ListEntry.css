@@ -133,3 +133,16 @@
 
 	font-size: 1.25em;
   }
+
+
+li:has(input:checked) {
+	text-decoration: line-through;
+	text-decoration-thickness: 3px;
+	text-decoration-offset: 100%;
+
+	text-decoration-line: line-through;
+}
+  
+tr.custom-line-height td {
+    line-height: 0.1;
+}

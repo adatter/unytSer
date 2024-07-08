@@ -3,26 +3,24 @@ import { template } from "uix/html/template.ts";
 
 
 interface Props {
-	for: string,
-    type: string,
-    value: any
+    value: any;
 }
 
-@template(function(this: InputGroupComponent, props) {
+@template(function(this: TitleComponent, props) {
     return (
         <li>
             <button type="button" 
                     class="button-as-text" 
                     data-toggle="tooltip" 
                     title="Click to edit" 
-                    onclick={() => this.toggleDisabled()}>{ props.for }:</button>
-            <input type={ props.type } class="input-group-component" value={ props.value } disabled={ this.$.isDisabled } style="display: inline-block; width: auto;" />
+                    onclick={() => this.toggleDisabled()}>EditTitle</button>
+            <input type="text" class="input-group-component" value={ props.value } disabled={this.$.isDisabled} style="display: inline-block; width: auto;" />
         </li>
     );
 })
 
 
-class InputGroupComponent extends Component<Props> {
+class TitleComponent extends Component<Props> {
     @property isDisabled = true;
 
     toggleDisabled() {
@@ -31,4 +29,4 @@ class InputGroupComponent extends Component<Props> {
 }
 
 
-export default InputGroupComponent;
+export default TitleComponent;

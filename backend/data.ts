@@ -31,14 +31,14 @@ type MovieData = {
     year_to?: number,
 }
 
-const users = $$({} as Record<string, MovieData[]>);
+const users = eternal ?? $$({} as Record<string, MovieData[]>);
 
-export function useItems() {
+export function useItems(onlyUnchecked=false) {
 	const user = datex.meta.caller.main.toString();
 
 	if (!(user in users)) {
-		console.log(`Creating databse entry for ${user}.`);
-		users[user] = [];
+		console.log(`Creating database entry for ${user}.`);
+		users[user] = eternal ?? $$([]);
 	}
 
 	const sorted = always(() => { // is always the sorted version of users[user]
@@ -47,8 +47,25 @@ export function useItems() {
 		return users[user].toSorted((a, b) => a.total_seasons - b.total_seasons)
 	});
 
+    // if (onlyUnchecked) {
+    //     const unChecked = always(() => {
+    //         return users[user].filter(entry => !(entry.seasons.every(el => el)))
+    //     });
+    //     return unChecked
+    // }
+
+    
 	// return sorted; // unsorted version: "return users[user];"
 	return users[user]
+
+    // const filtered = always(() => { // is always the sorted version of users[user]
+	// 	// out-of-place array sorting, returns a sorted array copy
+	// 	// with the original pointers/references inside
+	// 	return users[user].filter(entry => props.includes(entry.genre.val))
+	// });
+
+
+
 }
 
 export function storeItem(item: MovieData) {
@@ -64,4 +81,17 @@ export function deleteItem(id: string) {
     });
 
     return filtered;
+}
+
+export function filterItems(filt: string, props: string[]) {
+    const user = datex.meta.caller.main.toString();
+
+    const filtered = always(() => { // is always the sorted version of users[user]
+		// out-of-place array sorting, returns a sorted array copy
+		// with the original pointers/references inside
+		return users[user]
+	});
+
+    return filtered
+
 }

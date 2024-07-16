@@ -1,36 +1,23 @@
-import { ListEntry } from "./ListEntry.tsx";
-import { useItems, storeItem, filterItems } from "../backend/data.ts";
-import { FormCheckComponent } from "frontend/FormCheckComponent.tsx";
+import { useItems, storeItem, filterItems, deleteEntry } from "../backend/data.ts";
+
+import { ListEntry } from "../common/components/ListEntry.tsx";
+import { FormCheckComponent } from "../common/components/FormCheckComponent.tsx";
+import { ModalNotFound } from "../common/modals/ModalNotFound.tsx";
+import { UpdateSeasonsModal } from "../common/modals/UpdateSeasonsModal.tsx";
 
 import { AuthIcon } from "auth/AuthIcon.tsx";
 
-import InputGroupComponent from "frontend/InputGroupSm.tsx";
-
-import { modalNotFound } from "frontend/ModalNotFound.tsx";
-
-
-
+import InputGroupComponent from "../common/components/InputGroupSm.tsx";
 
 import "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-import { createFunctionWithDependencyInjectionsResolveLazyPointers } from "unyt_core/types/function-utils.ts";
-
 
 const wikiURL = "https://en.wikipedia.org/w/api.php?action=opensearch&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&search="
 
-
-const filterGenre = $$(["Drama"]);
-
 const noNewSeasonsFound = $$(false);
 const searchingSeasons = $$(false);
-
 const onlyUnchecked = $$(false);
 
-
-const items = await useItems(onlyUnchecked.val); // always? observe?
-// const items = await filterItems("Genre", ["Drama"]);
-
-
-
+const items = await useItems();
 
 type MovieData = {
 	Title: string,
@@ -53,7 +40,6 @@ type MovieData = {
 	imdbVotes: string,
 	totalSeasons: string
 }
-
 
 function addMovie(data: MovieData) : void {
 
@@ -103,7 +89,7 @@ function addMovie(data: MovieData) : void {
 
 	currentFinished.val = !!(currentYearTo.val);
 
-	console.log(currentFinished.val, currentYearTo.val)
+	console.log(currentFinished.val, currentYearTo.val);
 
 	try {
 		const matchRuntime = data.Runtime.match(/(\d+)\s*min/);
@@ -116,7 +102,6 @@ function addMovie(data: MovieData) : void {
 	} catch (error) {
 		currentRuntime.val = 0;
 	}
-
 
 	const button = document.getElementById('addManuallyButton');
         if (button) {
@@ -199,6 +184,8 @@ function addItem() {
         if (button) {
             button.click();
         }
+
+	currentTitle.val = ""
 }
 
 function startLoopSeasonsUpdate() {
@@ -329,7 +316,6 @@ function filterEntries() : void {
 
 }
 
-
 const searchTitle = $$("");
 
 const currentTitle = $$("");
@@ -356,7 +342,6 @@ const currentRatings = $$([]);
 const currentWriter = $$("");
 
 const modalAddVisible = $$(false);
-const modalUpdateSeasonsVisible = $$(false);
 const modalFilterVisible = $$(false);
 
 const newSeasonsArray = $$([]);
@@ -366,9 +351,11 @@ const updateSeasonsBarVisible = $$(false);
 
 const checkedVar = $$(true);
 
+const FilterMark = $$([]);
+
 const filter = $$({
 	mark: [],
-	genre: ["Drama"],
+	genre: [],
 	language: [],
 	country: [],
 	director: [],
@@ -380,19 +367,8 @@ const filter = $$({
 	completed: [],
 });
 
-let filterMark = [];
 
-
-
-function deleteEntry(s) {
-	console.log("called from", s.val)
-
-
-	console.log(items.filter(item => item.id != s))
-};
-
-
-items.$.map(item => item.$.total_seasons.observe((newSeasonsNum) => {
+items.$.map(item => item.$.total_seasons.observe((newSeasonsNum: number) => {
 	if (newSeasonsNum) {
 		const difference = item.total_seasons - item.seasons.length;
 
@@ -409,26 +385,7 @@ items.$.map(item => item.$.total_seasons.observe((newSeasonsNum) => {
 }))
 
 
-
-function handleFilterClick(g) {
-	// if (filter[typ].includes(g)) {
-	// 	filter[typ] = filter[typ].filter(it => it != g)
-	// } else {
-	// 	filter[typ].push(g)
-	// }
-
-	// if (filter.mark.includes(g.val)) {
-	// 	filter.mark = filter.mark.filter(it => it != g.val)
-	// } else {
-	// 	filter.mark.push(g.val)
-	// }
-
-	// console.log(filter.mark)
-
-	// console.log(filter.mark.includes("❤️"))
-
-	console.log(g)
-
+function handleFilterClick(g: string) {
 	if (filterMark.includes(g.val)) {
 		filterMark = filterMark.filter(it => it.val != g.val)
 	} else {
@@ -448,103 +405,17 @@ if (searchInputField) {
 	})
 }
 
-
-
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-function addWiki(titleRef: string) {
-	if (titleRef.val && titleRef.val.length > 0) {
-		fetch(wikiURL+titleRef.val)
-			.then(resp => resp.json())
-			.then(data => {
-
-		let link = data[3][0]
-		if (data[1].filter(elt => elt.includes("TV")).length > 0) {
-			link = data[3][data[1].indexOf(data[1].filter(elt => elt.includes("TV"))[0])]
-		} 
-
-		let name = titleRef.val
-		if (link && link.includes("/")) {
-			name = link.split("/").slice(-1)[0]
-		} else { console.log("link is not defined: ", name, link) }
-		
-		updateInfo(name)
-		})
-
-		// then open add manually modalAddVisible, color red new infos OR new modal with comparisement
-}   
-}
-
-function updateInfo(name) {
-    fetch(`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=revisions&rvprop=content&format=json&titles=${name}&rvsection=0`)
-    .then(resp => resp.json())
-    .then(data => {
-
-        const pageId = Object.keys(data.query.pages)[0]
-
-        if (data.query.pages[pageId].revisions) {
-            const page = data.query.pages[pageId].revisions[0]
-            const text = JSON.stringify(page)
-
-            if (text.includes("redirect") || text.includes("REDIRECT")) {
-                const didYouMean = text.split("[[").slice(-1)[0].split("]]")[0]
-				
-				alert("Did you mean " + didYouMean)
-                console.log("Did you mean", didYouMean)
-            } else {
-
-                let totalSeasons, genre, country, language, runtime, first, end;
-
-				if (text.includes("num_seasons")) {
-					totalSeasons = parseInt(text.split("num_seasons")[1].split("= ")[1].split("\\n")[0], 10);
-				} else if (text.includes("num_series")) {
-					totalSeasons = parseInt(text.split("num_series")[1].split("= ")[1].split("\\n")[0], 10);
-				}
-
-				text.includes("genre") ? genre = text.split("genre")[1].split("[[")[1].split("]]")[0] : genre = "<not found>"
-				text.includes("country") ? country = text.split("country")[1].split("=")[1].split("\\n")[0] : console.log("country not found");
-				text.includes("language") ? language = text.split("language")[1].split("=")[1].split("\\n")[0] : console.log("language not found");
-				text.includes("runtime") ? runtime = parseInt(text.split("runtime")[1].split("=")[1].split("\\n")[0], 10) : console.log("runtime not found");
-				text.includes("Start date") ? first = parseInt(text.split("Start date")[1].split("\\n")[0].slice(1, 5), 10) : console.log("first not found");
-				text.includes("End date") ? end = parseInt(text.split("End date")[1].split("\\n")[0].slice(1, 5), 10) : console.log("end not found");
-
-                console.log(name, "genre:", genre, "country:", country, "lang:", language, "time", runtime,
-                                    "first:", first, "end:", end, "seasons:", totalSeasons)
-
-				currentGenre.val = genre;
-
-                return ({"genre": genre,
-                            "country": country,
-                            "language": language,
-                            "runtime": runtime,
-                        	"year": first})
-
-            }
-  
-        } else { console.log("page not found: ", name) }   
-    })
-}
-
-
-
-
-
 export default
 	<div id="main" class="container-fluid">	
-	<div class="row">
-		<div class="col-12 col-lg-4">
-		<AuthIcon />
-		</div>
-		<div class="col-12 col-lg-8">
-
-				
-		</div>
-	</div>
-
 		<div class="row">
-			<div class="col-12 col-lg-4">
-				
+			<div class="col-2 col-lg-1">
+				<fieldset>
+					<legend>Log in</legend>
+					<AuthIcon />
+				</fieldset>
+			</div>
+			<div class="col-10 col-lg-7">
+				<h3 class="display-5">ADD SOMETHING NEW</h3>
 				<div class="input-group mb-3">
 					<input type="text" 
 							class="form-control" 
@@ -557,12 +428,6 @@ export default
 							onclick={ search }>
 								Search</button>
 				</div>
-{/* 
-				<div class={`alert alert-warning alert-dismissible fade ${ noTitleAlertShow.val ? "show" : "" }`} id="alertNoTitle" role="alert">
-					Please enter Title
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick={() => noTitleAlertShow.val = false}></button>
-				</div> */}
-
 				<div class="or-div">
 					<h5 class="display-4">OR</h5>	
 					<div class="btn-group mr-2" role="group" aria-label="First group">
@@ -583,27 +448,26 @@ export default
 						</button>
 					</div>
 				</div>
-
-				<h3 class="display-4">List</h3>
+				<h3 class="display-5">MY LIST</h3>
 				<div class="btn-group mr-2" role="group" aria-label="First group">
-						<button class="btn btn-primary" 
-								type="button" 
-								data-bs-toggle="collapse" 
-								data-bs-target="#collapseFilter" 
-								aria-expanded="false" 
-								aria-controls="collapseFilter"
-								onclick={ filterEntries }>
-									Filter
-						</button>
-						<button class="btn btn-primary" 
-								type="button" 
-								data-bs-toggle="collapse" 
-								data-bs-target="#collapseSort" 
-								aria-expanded="false" 
-								aria-controls="collapseSort" >
-									Sort
-						</button>
-					</div>
+					<button class="btn btn-primary" 
+							type="button" 
+							data-bs-toggle="collapse" 
+							data-bs-target="#collapseFilter" 
+							aria-expanded="false" 
+							aria-controls="collapseFilter"
+							onclick={ filterEntries }>
+								Filter
+					</button>
+					<button class="btn btn-primary" 
+							type="button" 
+							data-bs-toggle="collapse" 
+							data-bs-target="#collapseSort" 
+							aria-expanded="false" 
+							aria-controls="collapseSort" >
+								Sort
+					</button>
+				</div>
 				<div class="collapse" id="collapseFilter">
 					<div class="card card-body">
 						<input type="checkbox" checked={ onlyUnchecked } /> Unchecked only
@@ -639,11 +503,10 @@ export default
 			</div>
 			<div class="col-12 col-lg-8">
 				<ul class="list-group">
-					{ items.$.map(item => <ListEntry { ...item.$ } addWikiInfo={ addWiki }></ListEntry>) }
+					{ items.$.map(item => <ListEntry { ...item.$ } deleteEntry={ (i) => deleteEntry(i) }></ListEntry>) }
 				</ul>
 			</div>
 		</div>
-		
 		<div id="modal div">
 			<div id="addManuallyModal" 
 				class="modal fade" 
@@ -681,7 +544,7 @@ export default
 							<InputGroupComponent for="IMDB Rating" type="text" value={currentImdbRating} />
 							<InputGroupComponent for="IMDB Votes" type="text" value={currentImdbVotes} />
 							<InputGroupComponent for="Metascore" type="text" value={currentMetascore} />
-							{/* <InputGroupComponent for="Plot" type="text" value={currentPlot} /> */}
+							<InputGroupComponent for="Plot" type="text" value={currentPlot} />
 							<InputGroupComponent for="Rated" type="text" value={currentRated} />
 							<InputGroupComponent for="Writer" type="text" value={currentWriter} />
 
@@ -705,91 +568,14 @@ export default
 				</div>
 			</div>
 
-			<div class="modal fade" tabindex="-1" id="modalNotFound">
-				<div class="modal-dialog">
-					<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Not Found</h5>
-						<button type="button" 
-								class="btn-close" 
-								data-bs-dismiss="modal" 
-								aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<p>Title not found. You can add info manually or try searching again.</p>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Try Again</button>
-						<button type="button" class="btn btn-primary" onclick={ addMovie }>Add Manually</button>
-					</div>
-					</div>
-				</div>
-			</div>
+			<ModalNotFound func={ addMovie } />
 
-			<div id="updateSeasonsModal" 
-				class="modal fade" 
-				tabindex="-1" 
-				role="dialog" 
-				aria-labelledby="updateSeasonsModalLabel" 
-				aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="upsateSeasonsModal">Search for new seasons</h5>
-							<button type="button" 
-								class="close" 
-								data-bs-dismiss="modal" 
-								aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-								{ always(() => searchingSeasons.val ? <p>Checking if there are new seasons for: <strong>{ currentTitle }</strong></p> : <p></p>) }
-								
-								<div id="myProgress" class={ { visible: updateSeasonsBarVisible } }>
-									<div id="myBar" style={ { width: updateSeasonsPercentage } }></div>
-								</div>
-
-								{ always(() =>  noNewSeasonsFound.val ? <p>Nothing new yet...</p>: <p>Possibly there are new seasons out for:</p>)}
-
-								<ul>
-								{ newSeasonsArray.$.map(item =>
-									<li><strong>{ item.title }</strong>: new seasons: { item.number }</li>
-								)}
-								</ul>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-success" data-bs-dismiss="modal">Ok</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div id="update-seasons-modal" class={ { visible: modalUpdateSeasonsVisible } }>
-			<button onclick={ () => modalUpdateSeasonsVisible.val = false }>&times;</button>
-				<fieldset style="margin: 25px;">
-					<legend>Search for New Seasons</legend>
-					<p>Checking if there are new seasons for: <strong>{ currentTitle }</strong></p>
-
-					<div id="myProgress" class={ { visible: updateSeasonsBarVisible } }>
-					<div id="myBar" style={ { width: updateSeasonsPercentage } }></div>
-					</div>
-
-					<hr />
-
-					<p>Possibly there are new seasons out for:</p>
-					<ul>
-						{ newSeasonsArray.$.map(item =>
-							<li><strong>{ item.title }</strong>: new seasons: { item.number }</li>
-						)}
-					</ul>
-
-					<button onclick={ loopSeasonsUpdate }>Include All</button>
-				</fieldset>
-			</div>
-
-
+			<UpdateSeasonsModal searchingSeasons={searchingSeasons} 
+								currentTitle={currentTitle} 
+								updateSeasonsBarVisible={updateSeasonsBarVisible} 
+								updateSeasonsPercentage={updateSeasonsPercentage} 
+								noNewSeasonsFound={noNewSeasonsFound} 
+								newSeasonsArray={newSeasonsArray} />
 		</div>
-
 	</div>
 

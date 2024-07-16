@@ -1,6 +1,6 @@
 
 import { Datex } from "unyt_core/mod.ts";
-Datex.Runtime.OPTIONS.PROTECT_POINTERS = true; // Privatize pointers to their users
+Datex.Runtime.OPTIONS.PROTECT_POINTERS = true;
 
 
 type MovieData = {
@@ -33,7 +33,7 @@ type MovieData = {
 
 const users = eternal ?? $$({} as Record<string, MovieData[]>);
 
-export function useItems(onlyUnchecked=false) {
+export function useItems() {
 	const user = datex.meta.caller.main.toString();
 
 	if (!(user in users)) {
@@ -46,49 +46,23 @@ export function useItems(onlyUnchecked=false) {
 		// with the original pointers/references inside
 		return users[user].toSorted((a, b) => a.total_seasons - b.total_seasons)
 	});
-
-    // if (onlyUnchecked) {
-    //     const unChecked = always(() => {
-    //         return users[user].filter(entry => !(entry.seasons.every(el => el)))
-    //     });
-    //     return unChecked
-    // }
-
-    
-	// return sorted; // unsorted version: "return users[user];"
 	return users[user]
-
-    // const filtered = always(() => { // is always the sorted version of users[user]
-	// 	// out-of-place array sorting, returns a sorted array copy
-	// 	// with the original pointers/references inside
-	// 	return users[user].filter(entry => props.includes(entry.genre.val))
-	// });
-
-
-
 }
 
 export function storeItem(item: MovieData) {
-	// push to the original database entry, not to the copied sorted array
 	users[datex.meta.caller.main.toString()].push(item);
 }
 
-export function deleteItem(id: string) {
+export function deleteEntry(id: string) {
 	const user = datex.meta.caller.main.toString();
-    
-    const filtered = always(() => {
-        return users[user].filter(item => item.id != id)
-    });
-
-    return filtered;
+    const index = users[user].findIndex(movie => movie.id === id.val);
+    users[user].splice(index, 1);    
 }
 
 export function filterItems(filt: string, props: string[]) {
     const user = datex.meta.caller.main.toString();
 
-    const filtered = always(() => { // is always the sorted version of users[user]
-		// out-of-place array sorting, returns a sorted array copy
-		// with the original pointers/references inside
+    const filtered = always(() => {
 		return users[user]
 	});
 

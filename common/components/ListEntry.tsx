@@ -4,7 +4,7 @@ import { template } from "uix/html/template.ts";
 
 import { Textarea } from "./Textarea.tsx";
 
-import InputGroupComponent from "frontend/InputGroupSm.tsx";
+import InputGroupComponent from "./InputGroupSm.tsx";
 
 
 
@@ -41,7 +41,7 @@ type Props = {
     year_from?: number,
     year_to?: number,
 
-	addWikiInfo: (title: string) => undefined,
+	deleteEntry: (id: string) => undefined,
 }
 
 
@@ -51,9 +51,8 @@ function checkedBtn(bool: boolean) {
 const availibleMarks = $$(["👍", "👎", "❤️", "💔", "❌", "❗️","🕑"]);
 
 
-
-
-@template<Props>((props) =>
+@template(function (this: ListEntry, props) {
+	return (
 		<li class="list-group-item">
 			<table>
 				<tbody>
@@ -89,7 +88,7 @@ const availibleMarks = $$(["👍", "👎", "❤️", "💔", "❌", "❗️","�
 							{ props.$.seasons.$.map((_, index) => <button class={`season-check ${checkedBtn(props.$.seasons.$[index])}`} onclick={ () => props.$.seasons.$[index].val = !props.$.seasons.$[index].val }>{index + 1}</button>) }
 
 							<button class="season-check" data-toggle="tooltip" title="Add a season" onclick={ () => props.seasons.push(false) }>+</button>
-							{/* <button class="button-as-text" style="float:right" onclick={() => props.emitId(props.id)}>🗑️</button> */}
+							<button class="button-as-text" onclick={() => props.deleteEntry(props.id)}>🗑️</button>
 						</td>
 					</tr>
 				</tbody>
@@ -102,7 +101,7 @@ const availibleMarks = $$(["👍", "👎", "❤️", "💔", "❌", "❗️","�
 						<div class="card-body">
 							<InputGroupComponent for="Title" type="text" value={props.title} />
 
-							<button class="badge rounded-pill bg-light text-dark" onclick={ () => props.addWikiInfo(props.title) }>Search Additional Info </button>
+							<button class="badge rounded-pill bg-light text-dark" onclick={ () => this.addWiki(props.title) }>Search Additional Info </button>
 
 							<div class="additionalInfo">
 								
@@ -195,9 +194,7 @@ const availibleMarks = $$(["👍", "👎", "❤️", "💔", "❌", "❗️","�
 									</div>
 								</form>
 
-							
-
-							<InputGroupComponent for="Title" type="text" value={props.$.title} />
+							<InputGroupComponent for="Title" type="text" value={props.title} />
 							<InputGroupComponent for="Total Seasons" type="number" value={props.total_seasons} />
 							<InputGroupComponent for="Year From" type="number" value={props.year_from} />
 							<InputGroupComponent for="Year To" type="number" value={props.year_to} />
@@ -228,12 +225,80 @@ const availibleMarks = $$(["👍", "👎", "❤️", "💔", "❌", "❗️","�
 				</div>
 			</div>
 		</li>
-)
+	)
+})
 
-@style(css `
-	li {
-		list-style-type: none;
+
+export class ListEntry extends Component<Props> {
+	updateInfo(name) {
+		fetch(`http://en.wikipedia.org/w/api.php?action=query&origin=*&prop=revisions&rvprop=content&format=json&titles=${name}&rvsection=0`)
+		.then(resp => resp.json())
+		.then(data => {
+	
+			const pageId = Object.keys(data.query.pages)[0]
+	
+			if (data.query.pages[pageId].revisions) {
+				const page = data.query.pages[pageId].revisions[0]
+				const text = JSON.stringify(page)
+	
+				if (text.includes("redirect") || text.includes("REDIRECT")) {
+					const didYouMean = text.split("[[").slice(-1)[0].split("]]")[0]
+					
+					alert("Did you mean " + didYouMean)
+					console.log("Did you mean", didYouMean)
+				} else {
+	
+					let totalSeasons, genre, country, language, runtime, first, end;
+	
+					if (text.includes("num_seasons")) {
+						totalSeasons = parseInt(text.split("num_seasons")[1].split("= ")[1].split("\\n")[0], 10);
+					} else if (text.includes("num_series")) {
+						totalSeasons = parseInt(text.split("num_series")[1].split("= ")[1].split("\\n")[0], 10);
+					}
+	
+					text.includes("genre") ? genre = text.split("genre")[1].split("[[")[1].split("]]")[0] : genre = "<not found>"
+					text.includes("country") ? country = text.split("country")[1].split("=")[1].split("\\n")[0] : console.log("country not found");
+					text.includes("language") ? language = text.split("language")[1].split("=")[1].split("\\n")[0] : console.log("language not found");
+					text.includes("runtime") ? runtime = parseInt(text.split("runtime")[1].split("=")[1].split("\\n")[0], 10) : console.log("runtime not found");
+					text.includes("Start date") ? first = parseInt(text.split("Start date")[1].split("\\n")[0].slice(1, 5), 10) : console.log("first not found");
+					text.includes("End date") ? end = parseInt(text.split("End date")[1].split("\\n")[0].slice(1, 5), 10) : console.log("end not found");
+	
+					console.log(name, "genre:", genre, "country:", country, "lang:", language, "time", runtime,
+										"first:", first, "end:", end, "seasons:", totalSeasons)
+	
+					
+	
+					return ({"genre": genre,
+								"country": country,
+								"language": language,
+								"runtime": runtime,
+								"year": first})
+	
+				}
+	  
+			} else { console.log("page not found: ", name) }   
+		})
 	}
-`)
 
-export class ListEntry extends Component<Props> {}
+	addWiki(titleRef: string) {
+		if (titleRef.val && titleRef.val.length > 0) {
+			fetch("https://en.wikipedia.org/w/api.php?action=opensearch&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=10&search="+titleRef.val)
+				.then(resp => resp.json())
+				.then(data => {
+					let link = data[3][0]
+					if (data[1].filter(elt => elt.includes("TV")).length > 0) {
+						link = data[3][data[1].indexOf(data[1].filter(elt => elt.includes("TV"))[0])]
+					} 
+			
+					let name = titleRef.val
+					if (link && link.includes("/")) {
+						name = link.split("/").slice(-1)[0]
+					} else { 
+						console.log("link is not defined: ", name, link) 
+					}
+					
+					this.updateInfo(name)
+				})
+		}   
+	}
+}

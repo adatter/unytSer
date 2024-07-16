@@ -1,0 +1,132 @@
+/* #select-mark {
+	opacity: 0;
+	pointer-events: none;
+
+	transform: opacity .3s;
+}
+
+#select-mark.visible {
+	opacity: 1;
+	pointer-events: initial;
+} */
+
+.info-modal {
+  opacity: 0;
+  pointer-events: none;
+
+  transform: opacity 0.3s;
+
+  border: 1 solid black;
+}
+
+.info-modal.visible {
+  opacity: 1;
+  position: ininial;
+
+  border: 1 solid black;
+}
+
+.button-as-link {
+  background: none;
+  border: none;
+  color: initial;
+  text-decoration: none;
+}
+
+.button-as-link:hover {
+  color: gray;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#info-modal {
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+#info-modal.visible {
+  font-size: 13px;
+  color: black;
+  /* float: right; */
+  margin-left: 5px;
+  max-height: 200px;
+}
+
+.plot-text {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-weight: normal;
+  text-decoration: none;
+  padding: 0;
+  text-align: left;
+
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.plot-text:hover {
+  color: #555;
+}
+
+.poster-img {
+  width: auto;
+  height: auto;
+  padding-top: 15px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  padding-right: 1px;
+}
+
+.movie-title {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin: 1.33em 0;
+}
+
+.season-check {
+  margin: 2px;
+  border: none;
+  background: none;
+  transition: font-size 0.3s;
+
+  font-size: 1.25em;
+  margin: 1.33em 0;
+}
+
+.season-check:hover {
+  cursor: pointer;
+  font-size: 1.1em; /* Slightly bigger font */
+}
+
+.checked_btn {
+  color: var(--gray-dark);
+  text-decoration: line-through; /* Crossed over text */
+  text-decoration-thickness: 6px;
+}
+
+.movie-mark {
+  margin-right: 10px;
+
+  font-size: 1.25em;
+}
+
+li:has(input:checked) {
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+  text-decoration-offset: 100%;
+
+  text-decoration-line: line-through;
+}
+
+tr.custom-line-height td {
+  line-height: 0.67;
+}
+
+li {
+  list-style-type: none;
+}
